@@ -1,11 +1,8 @@
 import GreetingCard from "./components/greetingCard";
 import ProjectsView from "./components/ProjectsView";
-import { globalGETRateLimit } from "@/lib/server/request";
 
 export default async function Home() {
-  if (!(await globalGETRateLimit())) {
-    return "Too many requests";
-  }
+
   return (
     <div className="flex flex-col items-center gap-12">
       <GreetingCard />
