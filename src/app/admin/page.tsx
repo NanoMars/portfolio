@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { LogoutButton } from "../components";
 import { isAdmin } from "@/lib/server/auth/admin";
 import { getCurrentSession } from "@/lib/server/auth/session";
+import { logoutAction } from "../actions";
 
 export default async function Page() {
   const { user: profile } = await getCurrentSession() as { user: User };
@@ -10,7 +11,8 @@ export default async function Page() {
     redirect("/login");
   }
   if (!isAdmin(profile)) {
-    redirect("/home");
+    logoutAction();
+    redirect("/");
   }
 
   const image = `https://avatars.githubusercontent.com/u/${profile.github_id}`;
@@ -26,3 +28,4 @@ export default async function Page() {
     </div>
   );
 }
+
