@@ -64,7 +64,6 @@ export async function getCurrentSession(): Promise<SessionValidationResult> {
   if (token === null) {
     return { session: null, user: null };
   }
-
   const result = await validateSessionToken(token);
   return result
 }
