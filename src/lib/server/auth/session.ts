@@ -34,7 +34,6 @@ export async function createSession(user_id: string): Promise<Session> {
 }
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
-  console.log(`Session being checked: ${token}`);
   const result = await selectSessionFromIdWithUser(token);
   if (result.length < 1) {
     return { session: null, user: null };
