@@ -16,25 +16,26 @@ import { cookies } from 'next/headers';
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
-  const token = encodeBase32LowerCaseNoPadding(bytes);
+  const raw_token = encodeBase32LowerCaseNoPadding(bytes);
+  const token = encodeHexLowerCase(sha256(new TextEncoder().encode(raw_token)));
   return token;
 }
 
 export async function createSession(user_id: string): Promise<Session> {
   const token = generateSessionToken()
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = {
-    id: sessionId,
+    id: token,
     user_id,
     expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
   } as Session;
   await createSessionQuery(session);
   return session;
+
 }
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-  const result = await selectSessionFromIdWithUser(sessionId);
+  console.log(`Session being checked: ${token}`);
+  const result = await selectSessionFromIdWithUser(token);
   if (result.length < 1) {
     return { session: null, user: null };
   }
@@ -50,8 +51,8 @@ export async function validateSessionToken(token: string): Promise<SessionValida
   return { session, user };
 }
 
-export async function invalidateSession(sessionId: string): Promise<void> {
-  await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
+export async function invalidateSession(token: string): Promise<void> {
+  await db.delete(sessionTable).where(eq(sessionTable.id, token));
 }
 
 export async function invalidateAllSessions(userId: string): Promise<void> {
@@ -68,14 +69,14 @@ export async function getCurrentSession(): Promise<SessionValidationResult> {
   return result
 }
 
-export async function setSessionTokenCookie(token: string, expiresAt: Date) {
+export async function setSessionTokenCookie(session_data: Session) {
   const currentState = await cookies();
-  currentState.set("session", token, {
+  currentState.set("session", session_data.id, {
     httpOnly: true,
     path: "/",
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    expires: expiresAt
+    expires: session_data.expires_at
   });
 }
 

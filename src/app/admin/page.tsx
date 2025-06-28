@@ -6,13 +6,12 @@ import { getCurrentSession } from "@/lib/server/auth/session";
 
 export default async function Page() {
   const { user: profile } = await getCurrentSession() as { user: User };
-  console.log("Admin page profile:", profile);
-  // if (!profile) {
-  //   redirect("/login");
-  // }
-  // if (!isAdmin(profile)) {
-  //   redirect("/home");
-  // }
+  if (!profile) {
+    redirect("/login");
+  }
+  if (!isAdmin(profile)) {
+    redirect("/home");
+  }
 
   const image = `https://avatars.githubusercontent.com/u/${profile.github_id}`;
 

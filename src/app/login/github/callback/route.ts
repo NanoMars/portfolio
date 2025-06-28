@@ -54,9 +54,8 @@ export async function GET(request: Request): Promise<Response> {
 
   const existingUser = await getUserFromGitHubId(githubUserId);
   if (existingUser !== null) {
-    const sessionToken = crypto.randomUUID();
     const session = await createSession(existingUser.id);
-    await setSessionTokenCookie(sessionToken, session.expires_at);
+    await setSessionTokenCookie(session);
     return new Response(null, {
       status: 302,
       headers: {
@@ -78,9 +77,8 @@ export async function GET(request: Request): Promise<Response> {
       }
     });
   }
-  const sessionToken = crypto.randomUUID();
   const session = await createSession(user.id);
-  await setSessionTokenCookie(sessionToken, session.expires_at);
+  await setSessionTokenCookie(session);
 
   return new Response(null, {
     status: 302,
