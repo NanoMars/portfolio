@@ -18,8 +18,8 @@ export default async function ProjectsView({ limit = -1 }: { limit?: number }) {
           <ProjectCard
             title={project.name}
             url={project.url ?? ""}
-            logoImage={project.logoImage ?? undefined}
-            headerImage={project.headerImage ?? undefined}
+            logoImage={project.logo_image ?? undefined}
+            headerImage={project.header_image ?? undefined}
             description={project.description ?? ""}
           />
         </li>

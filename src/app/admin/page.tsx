@@ -1,10 +1,8 @@
-import { users } from "@/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
-
-type User = InferSelectModel<typeof users>;import { getCurrentSession } from "@/lib/server/session";
+import type { User } from "@/lib/schema_types";
 import { redirect } from "next/navigation";
 import { LogoutButton } from "../components";
-import { isAdmin } from "@/lib/auth/isAdmin";
+import { isAdmin } from "@/lib/server/auth/admin";
+import { getCurrentSession } from "@/lib/server/auth/session";
 
 export default async function Page() {
   const { user } = await getCurrentSession();
@@ -15,8 +13,8 @@ export default async function Page() {
   if (!isAdmin(profile)) {
     redirect("/home");
   }
-  
-  const image = `https://avatars.githubusercontent.com/u/${profile.githubId}`;
+
+  const image = `https://avatars.githubusercontent.com/u/${profile.github_id}`;
 
   return (
     <div className="flex flex-col items-center gap-12 pt-20">
