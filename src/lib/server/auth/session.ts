@@ -12,6 +12,7 @@ import {
 } from '@/lib/server/db/queries/session';
 import { cookies } from 'next/headers';
 
+
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
@@ -19,7 +20,8 @@ export function generateSessionToken(): string {
   return token;
 }
 
-export async function createSession(token: string, user_id: string): Promise<Session> {
+export async function createSession(user_id: string): Promise<Session> {
+  const token = generateSessionToken()
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const session = {
     id: sessionId,
@@ -57,14 +59,36 @@ export async function invalidateAllSessions(userId: string): Promise<void> {
 }
 
 export async function getCurrentSession(): Promise<SessionValidationResult> {
-  const curretState = await cookies();
-  const token = curretState.get("session")?.value ?? null;
+  const currentState = await cookies();
+  const token = currentState.get("session")?.value ?? null;
   if (token === null) {
     return { session: null, user: null };
   }
 
   const result = await validateSessionToken(token);
   return result
+}
+
+export async function setSessionTokenCookie(token: string, expiresAt: Date) {
+  const currentState = await cookies();
+  currentState.set("session", token, {
+    httpOnly: true,
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    expires: expiresAt
+  });
+}
+
+export async function deleteSessionTokenCookie() {
+  const currentState = await cookies();
+  currentState.set("session", "", {
+    httpOnly: true,
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 0
+  });
 }
 
 export type SessionValidationResult =
