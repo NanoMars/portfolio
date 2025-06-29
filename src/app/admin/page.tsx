@@ -27,11 +27,12 @@ export default async function Page() {
         {/* <p className="font-semibold">{profile.email}</p> */}
         <p className="font-black">welcome, {profile.username}</p>
         <div>
-          <InputField fieldName="asdf" fieldDescription="zxcv" />
+          <InputField fieldName="name" fieldDescription="The name of the project" />
           <textarea name="description" data-focus data-hover></textarea>
-          <Input name="logo_link" type="text" />
-          <Input name="header_link" type="text" />
-          <Input name="link" type="text" />
+          <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
+          <InputField fieldName="header_link" fieldDescription="Link to the header image" />
+          <InputField fieldName="link" fieldDescription="Link to the project" />
+          
         </div>
         <ProjectsView />
         <LogoutButton />
