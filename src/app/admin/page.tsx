@@ -1,11 +1,11 @@
 import type { User } from "@/lib/schema_types";
 import { redirect } from "next/navigation";
-import InputField, { LogoutButton } from "../components";
+import {InputField,  LogoutButton, TextField, ButtonThing } from "../components";
 import { isAdmin } from "@/lib/server/auth/admin";
 import { getCurrentSession } from "@/lib/server/auth/session";
 import { logoutAction } from "../actions";
 import ProjectsView from "../components/ProjectsView";
-import { Input } from '@headlessui/react'
+import { Button, Input } from '@headlessui/react'
 
 export default async function Page() {
   const { user: profile } = await getCurrentSession() as { user: User };
@@ -26,13 +26,25 @@ export default async function Page() {
         {/* <img src={image} alt="profile" height="100" width="100" className="rounded-full" /> */}
         {/* <p className="font-semibold">{profile.email}</p> */}
         <p className="font-black">welcome, {profile.username}</p>
-        <div>
-          <InputField fieldName="name" fieldDescription="The name of the project" />
-          <textarea name="description" data-focus data-hover></textarea>
-          <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
-          <InputField fieldName="header_link" fieldDescription="Link to the header image" />
-          <InputField fieldName="link" fieldDescription="Link to the project" />
-          
+        <div className="flex flex-col gap-6 w-full max-w-xl">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-xl font-semibold">Project Info</h2>
+            <InputField fieldName="name" fieldDescription="The name of the project" />
+            <TextField fieldName="description" fieldDescription="A brief description of the project" />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <h2 className="text-xl font-semibold">Images</h2>
+            <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
+            <InputField fieldName="header_link" fieldDescription="Link to the header image" />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <h2 className="text-xl font-semibold">External Link</h2>
+            <InputField fieldName="link" fieldDescription="Link to the project" />
+          </div>
+
+          <ButtonThing buttonText="Create Project" />
         </div>
         <ProjectsView />
         <LogoutButton />
@@ -40,4 +52,3 @@ export default async function Page() {
     </div>
   );
 }
-
