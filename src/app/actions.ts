@@ -7,6 +7,8 @@ import {
   invalidateSession
 } from "@/lib/server/auth/session";
 import { redirect } from "next/navigation";
+import { createProject } from "@/lib/server/db/queries/project";
+import { revalidatePath } from "next/cache";
 
 export async function logoutAction(): Promise<ActionResult> {
   const { session } = await getCurrentSession();
@@ -18,6 +20,19 @@ export async function logoutAction(): Promise<ActionResult> {
   await invalidateSession(session.id);
   await deleteSessionTokenCookie();
   return redirect("/login");
+}
+
+
+
+export async function createProjectAction(formData: FormData) {
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const logo_image = formData.get("logo_link") as string;
+  const header_image = formData.get("header_link") as string;
+  const url = formData.get("link") as string;
+
+  await createProject({ name, description, logo_image, header_image, url });
+  revalidatePath("/admin");
 }
 
 interface ActionResult {

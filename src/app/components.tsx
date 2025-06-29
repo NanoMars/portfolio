@@ -22,9 +22,11 @@ export function InputField({ fieldName, fieldDescription }: { fieldName: string;
 	return (
 		<div className="w-full max-w-md px-4">
 			<Field>
-				<Label className="text-sm/6 font-medium text-black">{fieldName}</Label>
+				<Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">{fieldName}</Label>
 				<Description className="text-sm/6 text-black/50">{fieldDescription}</Description>
 				<Input
+					id={fieldName}
+					name={fieldName}
 					className={clsx(
 						'mt-3 block w-full rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black',
 						'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25'
@@ -39,9 +41,11 @@ export function TextField({ fieldName, fieldDescription }: { fieldName: string; 
   return (
     <div className="w-full max-w-md px-4">
       <Field>
-        <Label className="text-sm/6 font-medium text-black">{fieldName}</Label>
+        <Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">{fieldName}</Label>
         <Description className="text-sm/6 text-black/50">{fieldDescription}</Description>
         <Textarea
+          id={fieldName}
+          name={fieldName}
           className={clsx(
             'mt-3 block w-full resize-none rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black',
             'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25'
