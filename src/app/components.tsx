@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export function LogoutButton() {
-	const [_, action] = useActionState(logoutAction, initialState);
+	const [, action] = useActionState(logoutAction, initialState);
 	return (
 		<form action={action}>
 			<button>Sign out</button>

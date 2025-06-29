@@ -1,18 +1,13 @@
 "use server";
 
-import { createProject } from "@/lib/server/db/queries/project";
-import { revalidatePath } from "next/cache";
+
 import { createProjectAction } from "../actions";
 
 import type { User } from "@/lib/schema_types";
-import { redirect } from "next/navigation";
-import {InputField,  LogoutButton, TextField, ButtonThing } from "../components";
-import { isAdmin } from "@/lib/server/auth/admin";
+import {InputField,  LogoutButton, TextField } from "../components";
 import { getCurrentSession } from "@/lib/server/auth/session";
-import { logoutAction } from "../actions";
 import ProjectsView from "../components/ProjectsView";
-import { Button, Input } from '@headlessui/react'
-import { url } from "inspector";
+
 
 export default async function Page() {
   const { user: profile } = await getCurrentSession() as { user: User };
