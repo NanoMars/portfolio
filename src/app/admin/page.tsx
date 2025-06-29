@@ -26,25 +26,32 @@ export default async function Page() {
         {/* <img src={image} alt="profile" height="100" width="100" className="rounded-full" /> */}
         {/* <p className="font-semibold">{profile.email}</p> */}
         <p className="font-black">welcome, {profile.username}</p>
-        <div className="flex flex-col gap-6 w-full max-w-xl">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-xl font-semibold">Project Info</h2>
-            <InputField fieldName="name" fieldDescription="The name of the project" />
-            <TextField fieldName="description" fieldDescription="A brief description of the project" />
-          </div>
+        <div>
+          <input type="checkbox" id="modal-toggle" className="peer hidden" />
+          <label
+            htmlFor="modal-toggle"
+            className="mb-2 inline-block cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+          >
+            Add New Project
+          </label>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-xl font-semibold">Images</h2>
-            <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
-            <InputField fieldName="header_link" fieldDescription="Link to the header image" />
-          </div>
+          <div className="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 peer-checked:flex">
+            <div className="relative w-96 max-w-full rounded-lg bg-white p-6 shadow-xl">
+              <label
+                htmlFor="modal-toggle"
+                className="absolute right-2 top-2 cursor-pointer text-xl text-gray-500 hover:text-black"
+              >
+                &times;
+              </label>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-xl font-semibold">External Link</h2>
-            <InputField fieldName="link" fieldDescription="Link to the project" />
+              <InputField fieldName="name" fieldDescription="The name of the project" />
+              <TextField fieldName="description" fieldDescription="A brief description of the project" />
+              <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
+              <InputField fieldName="header_link" fieldDescription="Link to the header image" />
+              <InputField fieldName="link" fieldDescription="Link to the project" />
+              <ButtonThing buttonText="Create Project" />
+            </div>
           </div>
-
-          <ButtonThing buttonText="Create Project" />
         </div>
         <ProjectsView />
         <LogoutButton />
@@ -52,3 +59,4 @@ export default async function Page() {
     </div>
   );
 }
+
