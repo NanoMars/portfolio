@@ -27,7 +27,7 @@ export default async function Page() {
         {/* <p className="font-semibold">{profile.email}</p> */}
         <p className="font-black">welcome, {profile.username}</p>
         <div>
-          <InputField field_name="asdf" field_description="zxcv" />
+          <InputField fieldName="asdf" fieldDescription="zxcv" />
           <textarea name="description" data-focus data-hover></textarea>
           <Input name="logo_link" type="text" />
           <Input name="header_link" type="text" />
