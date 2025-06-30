@@ -4,7 +4,7 @@ export default function GreetingCard() {
   return (
     <div>
       
-      <div className="mt-8 w-fit border-2 border-black p-4 mx-auto">
+      <div className="mt-8 w-fit min-w-[356px] border-2 border-black p-4 mx-auto">
         <div className="flex flex-row gap-4">
           <div className="flex flex-col gap-2 w-full md:w-[70%]">
             <h1 className="text-3xl font-bold w-fit">Hi, I&#39;m [Armand]</h1>

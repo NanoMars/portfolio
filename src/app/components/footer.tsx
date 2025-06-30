@@ -8,7 +8,7 @@ export default async function Footer() {
 
 
   return (
-    <footer className="h-auto py-4 px-6 text-black font-[900] text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+    <footer className="h-auto py-4 text-black font-[900] text-sm flex flex-col md:flex-row justify-between items-center gap-4 mx-4">
       <div className="flex items-center gap-2 font-medium">
         <span>&copy; {new Date().getFullYear()} Armand Packham-McGuiness</span>
       </div>
