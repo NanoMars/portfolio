@@ -1,6 +1,6 @@
 import ContactTag from "./contactTag";
 export default function GreetingCard() {
-  const textWidthPercent = 70;
+  
   return (
     <div>
       
