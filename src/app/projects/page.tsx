@@ -12,3 +12,9 @@ export default async function project() {
 		
 	);
 }
+
+export const metadata = {
+  title: "Tech Projects | Armand Packham-McGuiness Portfolio",
+  description:
+    "Explore indie games, hardware builds, and coding projects by Armand Packham-McGuiness. Built with creativity, code, and curiosity.",
+};

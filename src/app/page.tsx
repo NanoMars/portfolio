@@ -18,3 +18,9 @@ export default async function Home() {
     </div>
   );
 }
+
+export const metadata = {
+  title: "Armand Packham-McGuiness | Games, Software & Hardware",
+  description:
+    "Portfolio of Armand Packham-McGuiness—creative tech projects across games, software, and hardware. Developer, builder, and experimental maker.",
+};
