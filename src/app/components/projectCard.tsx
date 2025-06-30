@@ -28,7 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, url, logoImage, descri
 	{/* Header */}
 	<div style={{
 		paddingTop: '40%',
-		background: headerImage ? `url(${headerImage}) center/cover` : 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
+		background: headerImage ? `url(${headerImage}) center/cover` : 'url(https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/project-headers//defaultbg.png) center/cover',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
