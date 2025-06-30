@@ -50,7 +50,9 @@ export default async function Page() {
               <InputField fieldName="name" fieldDescription="The name of the project" />
               <TextField fieldName="description" fieldDescription="A brief description of the project" />
               <InputField fieldName="logo_link" fieldDescription="Link to the logo image" />
+              <InputField fieldName="logo_alt" fieldDescription="Alt text for the logo image" />
               <InputField fieldName="header_link" fieldDescription="Link to the header image" />
+              <InputField fieldName="header_alt" fieldDescription="Alt text for the header image" />
               <InputField fieldName="link" fieldDescription="Link to the project" />
               <button
                 type="submit"

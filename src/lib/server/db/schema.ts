@@ -40,7 +40,9 @@ export const projectTable = pgTable("project", {
   description: text("description"),
   url: text("url"),
   logo_image: text("logo_image"),
+  logo_image_alt: text("logo_image_alt"),
   header_image: text("header_image"),
+  header_image_alt: text("header_image_alt"),
 });
 
 export const technologyTable = pgTable("technology", {
@@ -48,6 +50,7 @@ export const technologyTable = pgTable("technology", {
   name: text("name"),
   slug: text("slug"),
   icon_url: text("icon_url"),
+  icon_alt: text("icon_alt"),
 });
 
 export const projectTechnologyTable = pgTable("project_technology", {
@@ -60,4 +63,3 @@ export const projectTechnologyTable = pgTable("project_technology", {
     .references(() => technologyTable.id)
     .notNull(),
 });
-
