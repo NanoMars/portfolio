@@ -2,6 +2,9 @@
 
 
 import { createProjectAction } from "../actions";
+import { redirect } from "next/navigation";
+import { logoutAction } from "../actions";
+import { isAdmin } from "@/lib/server/auth/admin";
 
 import type { User } from "@/lib/schema_types";
 import {InputField,  LogoutButton, TextField } from "../components";
@@ -14,13 +17,13 @@ export default async function Page() {
 
   const imageUrl = `https://avatars.githubusercontent.com/u/${profile.github_id}`;
 
-  // if (!profile) {
-  //   redirect("/login");
-  // }
-  // if (!isAdmin(profile)) {
-  //   logoutAction();
-  //   redirect("/");
-  // }
+  if (!profile) {
+    redirect("/login");
+  }
+  if (!isAdmin(profile)) { 
+    logoutAction();
+    redirect("/");
+  }
 
   return (
     <div className="flex flex-col items-center gap-12 pt-20">
