@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <a href="https://nanomars.github.io/portfolio/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="Logo-dark.png">
+      <img alt="Portfolio Logo" src="https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/project-logos//catlogobetter.png" height="180">
+    </picture>
+  </a>
 
-## Getting Started
+  <h1>Portfolio</h1>
+  <p><em>My personal portfolio.</em></p>
 
-First, run the development server:
+  <div>
+    <a href="https://your-portfolio-domain.com/">
+      <img src="View Live.svg" alt="View Live" style="width:auto;height:38px;display:inline-block;">
+    </a>
+  </div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+  <a href="https://github.com/NanoMars/portfolio/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/NanoMars/portfolio?style=for-the-badge" style="width:auto;height:38px;display:inline-block;">
+  </a>
+  <a href="https://github.com/NanoMars/portfolio/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/NanoMars/portfolio?style=for-the-badge" style="width:auto;height:38px;display:inline-block;">
+  </a>
+</div>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🖥️ Screenshots
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<p align="center">
+  <a href="https://www.armandpm.com/">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/80f5d0a9d544414d8ca451971ac1f69bea04642f_armand_packham-mcguiness___games__software___hardware____4.19pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the homepage of their website" width="30%">
+  </a>
+  <a href="https://www.armandpm.com/contact">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/b0c79582d8d2aa08396ec8c70c51e6c90465a597_armand_packham-mcguiness____4.20pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the contact page of their website" width="30%">
+  </a>
+</p>
