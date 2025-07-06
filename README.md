@@ -27,9 +27,9 @@
 
 <p align="center">
   <a href="https://www.armandpm.com/">
-    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/80f5d0a9d544414d8ca451971ac1f69bea04642f_armand_packham-mcguiness___games__software___hardware____4.19pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the homepage of their website" width="30%">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/80f5d0a9d544414d8ca451971ac1f69bea04642f_armand_packham-mcguiness___games__software___hardware____4.19pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the homepage of their website" width="100%">
   </a>
   <a href="https://www.armandpm.com/contact">
-    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/b0c79582d8d2aa08396ec8c70c51e6c90465a597_armand_packham-mcguiness____4.20pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the contact page of their website" width="30%">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/b0c79582d8d2aa08396ec8c70c51e6c90465a597_armand_packham-mcguiness____4.20pm____07-06.jpeg" alt="Screenshot of Armand Packham-McGuiness's website displaying the contact page of their website" width="100%">
   </a>
 </p>
