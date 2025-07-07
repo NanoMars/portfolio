@@ -2,7 +2,7 @@
   <a href="https://nanomars.github.io/portfolio/">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="Logo-dark.png">
-      <img alt="Portfolio Logo" src="https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/project-logos//catlogobetter.png" height="180">
+      <img alt="Portfolio Logo" src="catlogo.png" height="180">
     </picture>
   </a>
 
