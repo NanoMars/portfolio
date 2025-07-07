@@ -15,8 +15,8 @@
     </a>
   </div>
 
-  <a href="https://github.com/NanoMars/portfolio/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/NanoMars/portfolio?style=for-the-badge" style="width:auto;height:38px;display:inline-block;">
+  <a href="https://creativecommons.org/licenses/by-nc/4.0/">
+    <img alt="License: CC BY-NC 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey?style=for-the-badge" style="width:auto;height:38px;display:inline-block;">
   </a>
   <a href="https://github.com/NanoMars/portfolio/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/NanoMars/portfolio?style=for-the-badge" style="width:auto;height:38px;display:inline-block;">
