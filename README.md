@@ -1,7 +1,7 @@
 <div align="center">
   <a href="https://nanomars.github.io/portfolio/">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="Logo-dark.png">
+      <source media="(prefers-color-scheme: dark)" srcset="catlogo.png">
       <img alt="Portfolio Logo" src="catlogo.png" height="180">
     </picture>
   </a>
