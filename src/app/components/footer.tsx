@@ -14,7 +14,7 @@ export default async function Footer() {
       </div>
       <ul className="flex flex-row items-center gap-6">
         <li>
-          <Link href="/home" className="hover:underline font-medium">[home]</Link>
+          <Link href="/" className="hover:underline font-medium">[home]</Link>
         </li>
         <li>
           <Link href="/projects" className="hover:underline font-medium">[projects]</Link>
