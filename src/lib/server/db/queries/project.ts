@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, asc } from 'drizzle-orm';
 import { db } from '../index';
 import { projectTable, userTable } from '../schema';
 import type { UserDraft, User, Project, ProjectDraft } from '@/lib/schema_types';
@@ -9,7 +9,7 @@ export async function getProjectFromId(id: string): Promise<Project | null> {
 }
 
 export async function getAllProject(): Promise<Project[] | null> {
-  const projects = await db.select().from(projectTable);
+  const projects = await db.select().from(projectTable).orderBy(asc(projectTable.priority));
   return projects ?? null;
 }
 

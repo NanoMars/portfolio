@@ -38,6 +38,7 @@ export const projectTable = pgTable("project", {
   ...baseFields,
   name: varchar("name").notNull(),
   description: text("description"),
+  priority: integer("priority").unique(),
   url: text("url"),
   logo_image: text("logo_image"),
   logo_image_alt: text("logo_image_alt"),
