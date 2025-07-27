@@ -32,8 +32,18 @@ export async function createProjectAction(formData: FormData) {
   const header_image = formData.get("header_link") as string;
   const header_image_alt = formData.get("header_alt") as string;
   const url = formData.get("link") as string;
+  const priority = parseInt(formData.get("priority") as string) || 0;
 
-  await createProject({ name, description, logo_image, logo_image_alt, header_image, header_image_alt, url });
+  await createProject({ 
+    name, 
+    description, 
+    logo_image, 
+    logo_image_alt, 
+    header_image, 
+    header_image_alt, 
+    url,
+    priority 
+  });
   revalidatePath("/admin");
 }
 

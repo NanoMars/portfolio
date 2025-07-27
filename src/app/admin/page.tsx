@@ -57,6 +57,7 @@ export default async function Page() {
               <InputField fieldName="header_link" fieldDescription="Link to the header image" />
               <InputField fieldName="header_alt" fieldDescription="Alt text for the header image" />
               <InputField fieldName="link" fieldDescription="Link to the project" />
+              <InputField fieldName="priority" fieldDescription="Priority order (lower numbers appear first)" />
               <button
                 type="submit"
                 className="mb-2 mx-auto block rounded bg-black px-4 py-2 text-white hover:bg-black/80 transition-colors duration-200 mt-4"
