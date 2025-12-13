@@ -1,5 +1,5 @@
 import ContactTag from "./contactTag";
-import { Mail } from "lucide-react";
+import ClientIcon from "./ClientIcon";
 export default function GreetingCard() {
 
   return (
@@ -29,7 +29,7 @@ export default function GreetingCard() {
                 href="https://www.linkedin.com/in/armand-packham-mcguiness?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
               />
               <ContactTag
-                icon={<Mail className="w-4 h-4" />}
+                icon={<ClientIcon />}
                 label="Email"
                 href="mailto:me@armandpm.com"
               />
