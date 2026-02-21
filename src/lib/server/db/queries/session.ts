@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../index';
-import { sessionTable, userTable } from '../schema';
-import type { SessionNullable, Session, SessionDraft } from '@/lib/schema_types';
+import { sessionTable } from '../schema';
+import type { SessionNullable, SessionDraft } from '@/lib/schema_types';
 
 export async function createSession(sessionData: SessionDraft): Promise<SessionNullable | null> {
   const [session] = await db.insert(sessionTable).values(sessionData).returning();

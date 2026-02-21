@@ -15,11 +15,12 @@ import ProjectsView from "../components/ProjectsView";
 export default async function Page() {
   const { user: profile } = await getCurrentSession() as { user: User };
 
-  const imageUrl = `https://avatars.githubusercontent.com/u/${profile.githubId}`;
-
   if (!profile) {
     redirect("/login");
   }
+  
+  const imageUrl = `https://avatars.githubusercontent.com/u/${profile.githubId}`;
+
   if (!isAdmin(profile)) { 
     logoutAction();
     redirect("/");
