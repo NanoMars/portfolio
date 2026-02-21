@@ -13,9 +13,6 @@ const Header = function Header() {
 				<li>
 					<Link href="/projects" className="hover:underline font-black text-xl">[projects]</Link>
 				</li>
-				<li>
-					<Link href="/contact" className="hover:underline font-black text-xl">[contact]</Link>
-				</li>
 			</ul>
 		</div>
 	);

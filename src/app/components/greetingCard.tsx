@@ -1,5 +1,4 @@
 import ContactTag from "./contactTag";
-import ClientIcon from "./ClientIcon";
 export default function GreetingCard() {
 
   return (
@@ -27,11 +26,6 @@ export default function GreetingCard() {
                 imgSrc="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMjAuNDQ3IDIwLjQ1MmgtMy41NTR2LTUuNTY5YzAtMS4zMjgtLjAyNy0zLjAzNy0xLjg1Mi0zLjAzN2MtMS44NTMgMC0yLjEzNiAxLjQ0NS0yLjEzNiAyLjkzOXY1LjY2N0g5LjM1MVY5aDMuNDE0djEuNTYxaC4wNDZjLjQ3Ny0uOSAxLjYzNy0xLjg1IDMuMzctMS44NWMzLjYwMSAwIDQuMjY3IDIuMzcgNC4yNjcgNS40NTV2Ni4yODZ6TTUuMzM3IDcuNDMzYTIuMDYgMi4wNiAwIDAgMS0yLjA2My0yLjA2NWEyLjA2NCAyLjA2NCAwIDEgMSAyLjA2MyAyLjA2NW0xLjc4MiAxMy4wMTlIMy41NTVWOWgzLjU2NHpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMHoiLz48L3N2Zz4="
                 label="LinkedIn"
                 href="https://www.linkedin.com/in/armand-packham-mcguiness?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-              />
-              <ContactTag
-                icon={<ClientIcon />}
-                label="Email"
-                href="mailto:me@armandpm.com"
               />
             </div>
           </div>

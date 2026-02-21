@@ -36,9 +36,6 @@ export default async function Footer() {
         <li>
           <Link href="/projects" className="hover:underline font-medium">[projects]</Link>
         </li>
-        <li>
-          <Link href="/contact" className="hover:underline font-medium">[contact]</Link>
-        </li>
         {isLoggedIn !== null && (
           <li>
             <Link href={isLoggedIn ? "/admin" : "/login"} className="hover:underline font-medium">[admin]</Link>
