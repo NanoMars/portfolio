@@ -10,7 +10,7 @@ export default async function Footer() {
   const commitDate = process.env.COMMIT_DATE || "unknown";
 
   return (
-    <footer className="h-auto py-4 text-black font-[900] text-sm flex flex-col md:flex-row justify-between items-center gap-4 mx-4">
+    <footer className="h-auto py-4 text-black font-[900] text-sm flex flex-col md:flex-row justify-center items-center gap-4 mx-4 text-center">
       <div className="flex flex-col md:flex-row items-center gap-2 font-medium">
         <span>&copy; {new Date().getFullYear()} Armand Packham-McGuiness</span>
         {commitHash !== "unknown" && (
@@ -29,19 +29,6 @@ export default async function Footer() {
           </span>
         )}
       </div>
-      <ul className="flex flex-row items-center gap-6">
-        <li>
-          <Link href="/" className="hover:underline font-medium">[home]</Link>
-        </li>
-        <li>
-          <Link href="/projects" className="hover:underline font-medium">[projects]</Link>
-        </li>
-        {isLoggedIn !== null && (
-          <li>
-            <Link href={isLoggedIn ? "/admin" : "/login"} className="hover:underline font-medium">[admin]</Link>
-          </li>
-        )}
-      </ul>
     </footer>
   );
 }

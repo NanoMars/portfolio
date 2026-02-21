@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "./components/header";
 import Footer from "./components/footer";
 import { Analytics } from "@vercel/analytics/next"
 
@@ -35,7 +34,6 @@ export default function RootLayout({
       <body className="font-[Roboto_Condensed] m-0 p-0">
 
         <div className="flex flex-col min-h-screen min-w-[400px] max-w-[800px] mx-auto bg-white text-black">
-          <Header />
           <div className="p-8">
             {children}
             <Analytics />

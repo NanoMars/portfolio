@@ -6,14 +6,9 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-center gap-12">
       <GreetingCard />
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex flex-row gap-4 w-full justify-between items-center px-4">
-          <h4 className="text-xl font-black">[projects]</h4>
-          <a href="/projects" className="hover:underline font-black text-xl">
-            [view all]
-          </a>
-        </div>
-        <ProjectsView limit={4} />
+      <div className="flex flex-col gap-4 mt-8">
+        <h4 className="text-3xl font-bold w-fit mx-auto">[projects]</h4>
+        <ProjectsView />
       </div>
     </div>
   );
