@@ -21,7 +21,7 @@
     "lucia": "^3.2.2",
     "lucide-react": "^0.554.0",
     "masonry-layout": "^4.2.2",
-    "next": "^15.3.4",
+    "next": "15.3.8",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.10.1",
     "pg": "^8.16.2",
