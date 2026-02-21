@@ -1,4 +1,5 @@
 import ContactTag from "./contactTag";
+import { Mail } from "lucide-react";
 export default function GreetingCard() {
 
   return (
@@ -13,9 +14,9 @@ export default function GreetingCard() {
             </p>
             <div className="flex flex-row gap-2 mt-4">
               <ContactTag
-                imgSrc="https://cdn.simpleicons.org/instagram/000000"
-                label="Instagram"
-                href="https://www.instagram.com/nvmarmand/"
+                icon={<Mail size={16} color="black" className="mx-0" />}
+                label="Email"
+                href="mailto:me@armandpm.com"
               />
               <ContactTag
                 imgSrc="https://cdn.simpleicons.org/github/000000"
