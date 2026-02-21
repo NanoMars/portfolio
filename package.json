@@ -23,7 +23,7 @@
     "masonry-layout": "^4.2.2",
     "next": "^16.1.6",
     "next-auth": "^4.24.13",
-    "nodemailer": "^8.0.1",
+    "nodemailer": "^7.0.13",
     "pg": "^8.18.0",
     "postgres": "^3.4.8",
     "react": "^19.2.4",
