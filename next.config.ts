@@ -18,8 +18,13 @@ const nextConfig: NextConfig = {
     COMMIT_DATE: commitDate,
   },
   images: {
-    domains: ['hc-cdn.hel1.your-objectstorage.com'],
-  }
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hc-cdn.hel1.your-objectstorage.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
