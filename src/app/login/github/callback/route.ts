@@ -64,11 +64,11 @@ export async function GET(request: Request): Promise<Response> {
     });
   }
 
-  const user_data = {
+  const userData = {
     username,
-    github_id: githubUserId
+    githubId: githubUserId
   } as UserDraft;
-  const user = await createUser(user_data);
+  const user = await createUser(userData);
   if (!user) {
     return new Response(null, {
       status: 500,

@@ -16,36 +16,35 @@ import { cookies } from 'next/headers';
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
   crypto.getRandomValues(bytes);
-  const raw_token = encodeBase32LowerCaseNoPadding(bytes);
-  const token = encodeHexLowerCase(sha256(new TextEncoder().encode(raw_token)));
+  const rawToken = encodeBase32LowerCaseNoPadding(bytes);
+  const token = encodeHexLowerCase(sha256(new TextEncoder().encode(rawToken)));
   return token;
 }
 
-export async function createSession(user_id: string): Promise<Session> {
+export async function createSession(userId: string): Promise<Session> {
   const token = generateSessionToken()
-  const session = {
+  const sessionData = {
     id: token,
-    user_id,
-    expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
-  } as Session;
-  await createSessionQuery(session);
-  return session;
-
+    userId,
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+  };
+  const session = await createSessionQuery(sessionData);
+  return session as Session;
 }
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
   const result = await selectSessionFromIdWithUser(token);
-  if (result.length < 1) {
+  if (!result || result.length < 1) {
     return { session: null, user: null };
   }
   const { user, session } = result[0];
-  if (Date.now() >= session.expires_at.getTime()) {
+  if (Date.now() >= session.expiresAt.getTime()) {
     await deleteSessionFromId(session.id);
     return { session: null, user: null };
   }
-  if (Date.now() >= session.expires_at.getTime() - 1000 * 60 * 60 * 24 * 15) {
-    session.expires_at = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
-    updateSessionExpirydate(session.expires_at, session.id);
+  if (Date.now() >= session.expiresAt.getTime() - 1000 * 60 * 60 * 24 * 15) {
+    session.expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+    updateSessionExpirydate(session.expiresAt, session.id);
   }
   return { session, user };
 }
@@ -55,7 +54,7 @@ export async function invalidateSession(token: string): Promise<void> {
 }
 
 export async function invalidateAllSessions(userId: string): Promise<void> {
-  await db.delete(sessionTable).where(eq(sessionTable.user_id, userId));
+  await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
 }
 
 export async function getCurrentSession(): Promise<SessionValidationResult> {
@@ -68,14 +67,14 @@ export async function getCurrentSession(): Promise<SessionValidationResult> {
   return result
 }
 
-export async function setSessionTokenCookie(session_data: Session) {
+export async function setSessionTokenCookie(sessionData: Session) {
   const currentState = await cookies();
-  currentState.set("session", session_data.id, {
+  currentState.set("session", sessionData.id, {
     httpOnly: true,
     path: "/",
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    expires: session_data.expires_at
+    expires: sessionData.expiresAt
   });
 }
 

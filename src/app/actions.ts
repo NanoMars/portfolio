@@ -27,20 +27,20 @@ export async function logoutAction(): Promise<ActionResult> {
 export async function createProjectAction(formData: FormData) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
-  const logo_image = formData.get("logo_link") as string;
-  const logo_image_alt = formData.get("logo_alt") as string;
-  const header_image = formData.get("header_link") as string;
-  const header_image_alt = formData.get("header_alt") as string;
+  const logoImage = formData.get("logo_link") as string;
+  const logoImageAlt = formData.get("logo_alt") as string;
+  const headerImage = formData.get("header_link") as string;
+  const headerImageAlt = formData.get("header_alt") as string;
   const url = formData.get("link") as string;
   const priority = parseInt(formData.get("priority") as string) || 0;
 
   await createProject({ 
     name, 
     description, 
-    logo_image, 
-    logo_image_alt, 
-    header_image, 
-    header_image_alt, 
+    logoImage, 
+    logoImageAlt, 
+    headerImage, 
+    headerImageAlt, 
     url,
     priority 
   });
