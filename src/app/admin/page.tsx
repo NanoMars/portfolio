@@ -3,7 +3,6 @@
 
 import { createProjectAction } from "../actions";
 import { redirect } from "next/navigation";
-import { logoutAction } from "../actions";
 import { isAdmin } from "@/lib/server/auth/admin";
 
 import type { User } from "@/lib/schema_types";
@@ -22,7 +21,6 @@ export default async function Page() {
   const imageUrl = `https://avatars.githubusercontent.com/u/${profile.githubId}`;
 
   if (!isAdmin(profile)) { 
-    logoutAction();
     redirect("/");
   }
 
