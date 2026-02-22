@@ -27,8 +27,6 @@ export async function logoutAction(): Promise<ActionResult> {
 export async function createProjectAction(formData: FormData) {
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
-  const logoImage = formData.get("logo_link") as string;
-  const logoImageAlt = formData.get("logo_alt") as string;
   const headerImage = formData.get("header_link") as string;
   const headerImageAlt = formData.get("header_alt") as string;
   const url = formData.get("link") as string;
@@ -37,8 +35,6 @@ export async function createProjectAction(formData: FormData) {
   await createProject({ 
     name, 
     description, 
-    logoImage, 
-    logoImageAlt, 
     headerImage, 
     headerImageAlt, 
     url,

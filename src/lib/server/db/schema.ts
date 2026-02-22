@@ -45,8 +45,6 @@ export const projectTable = pgTable("project", {
   description: text("description"),
   priority: integer("priority").unique(),
   url: text("url"),
-  logoImage: text("logo_image"),
-  logoImageAlt: text("logo_image_alt"),
   headerImage: text("header_image"),
   headerImageAlt: text("header_image_alt"),
   createdAt: timestamp('created_at').defaultNow(),

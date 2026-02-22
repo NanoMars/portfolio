@@ -3,13 +3,12 @@ import React from 'react';
 interface ProjectCardProps {
   title: string;
   url: string;
-  logoImage?: string;
   description?: string;
   headerImage?: string;
   technologyIcons?: string[];
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, url, logoImage, description = "", headerImage, technologyIcons}) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, url, description = "", headerImage, technologyIcons}) => {
   return (
 <a href={url} className="border-2 border-black" style={{
 	display: 'inline-block',
@@ -34,26 +33,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, url, logoImage, descri
 		alignItems: 'center',
 		position: 'relative',
 	}}>
-	{logoImage && (
-		<img 
-			src={logoImage} 
-			alt={`${title} logo`} 
-			style={{
-				width: '80px',
-				height: '80px',
-				borderRadius: '20px',
-				position: 'absolute',
-				bottom: '-40px',
-				objectFit: 'cover',
-				boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
-			}}
-		/>
-	)}
 	</div>
 
 	{/* Text Content */}
 	<div style={{
-		padding: logoImage ? '45px 20px 20px 20px' : '20px',
+		padding: '20px',
 		textAlign: 'left',
 		display: 'flex',
 		flexDirection: 'column',
