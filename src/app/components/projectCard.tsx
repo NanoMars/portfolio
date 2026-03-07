@@ -11,10 +11,11 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ title, url, description = "", headerImage, technologyIcons}) => {
   return (
 <a href={url} className="border-2 border-black" style={{
-	display: 'inline-block',
+	display: 'flex',
+    flexDirection: 'column',
 	textDecoration: 'none', 
 	color: 'inherit',
-	width: '356px',
+	width: '100%',
 	height: '319px',
 	borderRadius: '0',
 	overflow: 'hidden',

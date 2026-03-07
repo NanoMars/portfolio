@@ -3,11 +3,11 @@ import { Mail } from "lucide-react";
 export default function GreetingCard() {
 
   return (
-    <div>
+    <div className="w-full">
 
-      <div className="mt-8 w-fit min-w-[356px] border-2 border-black p-4 mx-auto">
+      <div className="mt-8 w-full border-2 border-black p-4">
         <div className="flex flex-row gap-4">
-          <div className="flex flex-col gap-2 w-full md:w-[70%]">
+          <div className="flex flex-col gap-2 flex-1">
             <h1 className="text-3xl font-bold w-fit">Hi, I&#39;m [Armand]</h1>
             <p className="font-normal break-words w-full max-w-full text-justify">
               I’m an 18 y/o builder from Sydney working on hardware, software, games, and websites. I care about building fast, creative problem solving, and learning new things. I build to learn, iterate, and see what sticks.
@@ -30,9 +30,11 @@ export default function GreetingCard() {
               />
             </div>
           </div>
-          <div className="hidden md:flex flex-col gap-2 flex-1">
+          {/* Change this `min-[000px]` matching the project grid below to set when the image disappears */}
+          <div className="hidden min-[500px]:flex h-auto shrink-0 self-stretch">
             <img
-              className="aspect-square h-full object-cover"
+              className="w-auto h-full object-cover shrink-0"
+              style={{ aspectRatio: '1/1' }}
               src="https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/random-images//dither-cat.png"
               alt="Dithered Cat"
             />

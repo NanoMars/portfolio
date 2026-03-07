@@ -12,18 +12,21 @@ export default async function ProjectsView({ limit = -1 }: { limit?: number }) {
   const displayData = limit > 0 ? rawProjects.slice(0, limit) : rawProjects;
 
   return (
-    <ul className="flex flex-wrap justify-center gap-6">
-      {displayData.map((project) => (
-        <li key={project.id}>
-          <ProjectCard
-            title={project.name}
-            url={project.url ?? ""}
-            headerImage={project.headerImage ?? undefined}
-            description={project.description ?? ""}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      {/* Change the "600px" below to whatever width you want it to snap to a single column at */}
+      <ul className="grid grid-cols-1 min-[650px]:grid-cols-2 gap-6 w-full">
+        {displayData.map((project) => (
+          <li key={project.id}>
+            <ProjectCard
+              title={project.name}
+              url={project.url ?? ""}
+              headerImage={project.headerImage ?? undefined}
+              description={project.description ?? ""}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 

@@ -4,9 +4,9 @@ import ProjectsView from "./components/ProjectsView";
 export default async function Home() {
 
   return (
-    <div className="flex flex-col items-center gap-12">
+    <div className="flex flex-col gap-12 w-full max-w-[800px] mx-auto px-4">
       <GreetingCard />
-      <div className="flex flex-col gap-4 mt-8">
+      <div className="flex flex-col gap-4 mt-8 w-full">
         <h4 className="text-3xl font-bold w-fit mx-auto">[projects]</h4>
         <ProjectsView />
       </div>
