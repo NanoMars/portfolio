@@ -24,12 +24,17 @@ export async function logoutAction(): Promise<ActionResult> {
 }
 
 export async function createProjectAction(formData: FormData) {
-  const name = formData.get("name") as string;
-  const description = formData.get("description") as string;
-  const headerImage = formData.get("header_link") as string;
-  const headerImageAlt = formData.get("header_alt") as string;
-  const url = formData.get("link") as string;
-  const priority = parseInt(formData.get("priority") as string) || 0;
+  const name = (formData.get("name") as string) || "New Project";
+  const description = (formData.get("description") as string) || null;
+  const headerImage = (formData.get("header_link") as string) || null;
+  const headerImageAlt = (formData.get("header_alt") as string) || null;
+  const url = (formData.get("link") as string) || null;
+
+  let priority = parseInt(formData.get("priority") as string);
+  // Give it a unique priority to prevent constraint errors
+  if (isNaN(priority) || priority === 100) {
+    priority = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
+  }
 
   await createProject({
     name,
