@@ -56,7 +56,9 @@ function SortableProjectItem({
           onClick={(e) => {
             e.preventDefault();
             // Dispatch custom event to open the edit modal (to be implemented next)
-            const event = new CustomEvent("open-edit-modal", { detail: project });
+            const event = new CustomEvent("open-edit-modal", {
+              detail: project,
+            });
             window.dispatchEvent(event);
           }}
         >
@@ -96,26 +98,29 @@ export default function ClientProjectList({
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
+      let newOrder: Project[] = [];
+
       setProjects((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
 
-        const newOrder = arrayMove(items, oldIndex, newIndex);
+        newOrder = arrayMove(items, oldIndex, newIndex);
+        return newOrder;
+      });
 
-        // Optimistically update the database
+      // Optimistically update the database outside of the setProjects render cycle
+      if (newOrder.length > 0) {
         startTransition(() => {
           reorderProjectsAction(newOrder.map((p) => p.id));
         });
-
-        return newOrder;
-      });
+      }
     }
   }
 
