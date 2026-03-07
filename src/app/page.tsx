@@ -4,6 +4,7 @@ import { getCurrentSession } from "@/lib/server/auth/session";
 import { isAdmin } from "@/lib/server/auth/admin";
 import AdminEditModal from "./components/AdminEditModal";
 import { LogoutButton } from "./components";
+import NewProjectButton from "./components/NewProjectButton";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -17,23 +18,7 @@ export default async function Home() {
         <div className="w-full flex justify-between items-center bg-black text-white p-4 border-2 border-black font-bold mt-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
           <span>ADMIN PANEL</span>
           <div className="flex gap-4">
-            <form
-              action={async () => {
-                "use server";
-                const { createProjectAction } = await import("./actions");
-                const formData = new FormData();
-                formData.append("name", "New Project");
-                formData.append("priority", "100");
-                await createProjectAction(formData);
-              }}
-            >
-              <button
-                type="submit"
-                className="px-4 py-1 bg-white text-black border-2 border-transparent hover:border-white hover:bg-black hover:text-white transition-colors"
-              >
-                + NEW PROJECT
-              </button>
-            </form>
+            <NewProjectButton />
             <LogoutButton />
           </div>
         </div>

@@ -47,6 +47,32 @@ export async function createProjectAction(formData: FormData) {
   revalidatePath("/");
 }
 
+export async function createNewProjectAction(payload: any) {
+  const { user } = await getCurrentSession();
+  if (!user || !isAdmin(user)) throw new Error("Unauthorized");
+
+  let priority = payload.priority;
+  if (priority === undefined || priority === null || isNaN(priority)) {
+    priority = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
+  }
+
+  const newProject = await createProject({
+    name: payload.name || "New Project",
+    slug: payload.slug || null,
+    description: payload.description || null,
+    headerImage: payload.headerImage || null,
+    githubUrl: payload.githubUrl || null,
+    liveUrl: payload.liveUrl || null,
+    liveUrlText: payload.liveUrlText || null,
+    liveUrlIcon: payload.liveUrlIcon || null,
+    content: payload.content || null,
+    priority,
+  });
+
+  revalidatePath("/");
+  return newProject;
+}
+
 export async function updateProjectAction(payload: {
   id: string;
   [key: string]: any;
