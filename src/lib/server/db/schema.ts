@@ -9,12 +9,12 @@ import {
 import { relations } from "drizzle-orm";
 
 export const userTable = pgTable("user", {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   username: text("username").notNull(),
   email: text("email"),
   githubId: integer("github_id").unique().notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  lastUpdated: timestamp('last_updated').defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
 });
 
 export const userRelations = relations(userTable, ({ many }) => ({
@@ -24,12 +24,12 @@ export const userRelations = relations(userTable, ({ many }) => ({
 export const sessionTable = pgTable("session", {
   id: text("id").primaryKey(),
   userId: uuid("user_id").notNull(),
-  expiresAt: timestamp('expires_at', {
+  expiresAt: timestamp("expires_at", {
     withTimezone: true,
-    mode: 'date'
+    mode: "date",
   }).notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  lastUpdated: timestamp('last_updated').defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
 });
 
 export const sessionRelations = relations(sessionTable, ({ one }) => ({
@@ -40,15 +40,21 @@ export const sessionRelations = relations(sessionTable, ({ one }) => ({
 }));
 
 export const projectTable = pgTable("project", {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name").notNull(),
+  slug: text("slug").unique(),
   description: text("description"),
+  content: text("content"),
   priority: integer("priority").unique(),
   url: text("url"),
+  githubUrl: text("github_url"),
+  liveUrl: text("live_url"),
+  liveUrlText: text("live_url_text"),
+  liveUrlIcon: text("live_url_icon"),
   headerImage: text("header_image"),
   headerImageAlt: text("header_image_alt"),
-  createdAt: timestamp('created_at').defaultNow(),
-  lastUpdated: timestamp('last_updated').defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
 });
 
 export const projectRelations = relations(projectTable, ({ many }) => ({
@@ -56,13 +62,13 @@ export const projectRelations = relations(projectTable, ({ many }) => ({
 }));
 
 export const technologyTable = pgTable("technology", {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: text("name"),
   slug: text("slug"),
   iconUrl: text("icon_url"),
   iconAlt: text("icon_alt"),
-  createdAt: timestamp('created_at').defaultNow(),
-  lastUpdated: timestamp('last_updated').defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
 });
 
 export const technologyRelations = relations(technologyTable, ({ many }) => ({
@@ -70,24 +76,27 @@ export const technologyRelations = relations(technologyTable, ({ many }) => ({
 }));
 
 export const projectTechnologyTable = pgTable("project_technology", {
-  id: uuid('id').defaultRandom().primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   projectId: uuid("project_id")
     .references(() => projectTable.id)
     .notNull(),
   technologyId: uuid("technology_id")
     .references(() => technologyTable.id)
     .notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  lastUpdated: timestamp('last_updated').defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastUpdated: timestamp("last_updated").defaultNow(),
 });
 
-export const projectTechnologyRelations = relations(projectTechnologyTable, ({ one }) => ({
-  project: one(projectTable, {
-    fields: [projectTechnologyTable.projectId],
-    references: [projectTable.id],
+export const projectTechnologyRelations = relations(
+  projectTechnologyTable,
+  ({ one }) => ({
+    project: one(projectTable, {
+      fields: [projectTechnologyTable.projectId],
+      references: [projectTable.id],
+    }),
+    technology: one(technologyTable, {
+      fields: [projectTechnologyTable.technologyId],
+      references: [technologyTable.id],
+    }),
   }),
-  technology: one(technologyTable, {
-    fields: [projectTechnologyTable.technologyId],
-    references: [technologyTable.id],
-  }),
-}));
+);
