@@ -20,8 +20,8 @@ export function LogoutButton() {
   const [, action] = useActionState(logoutAction, initialState);
   return (
     <form action={action}>
-      <button className="px-4 py-1 bg-red-600 text-white border-2 border-transparent hover:border-red-600 hover:bg-black transition-colors">
-        Sign out
+      <button className="px-4 py-1 bg-white text-black border-2 border-black hover:border-4 transition-all lowercase">
+        sign out
       </button>
     </form>
   );

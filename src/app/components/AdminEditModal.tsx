@@ -79,18 +79,18 @@ export default function AdminEditModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/90 backdrop-blur-sm p-4 sm:p-8">
-      <div className="bg-white border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] w-full max-w-5xl h-full max-h-[90vh] flex flex-col overflow-hidden">
-        <div className="flex justify-between items-center p-4 sm:p-6 border-b-4 border-black bg-gray-50">
-          <h2 className="text-2xl font-black uppercase truncate pr-4">
+      <div className="bg-white border-2 border-black w-full max-w-5xl h-full max-h-[90vh] flex flex-col overflow-hidden">
+        <div className="flex justify-between items-center p-4 sm:p-6 border-b-2 border-black bg-white">
+          <h2 className="text-2xl font-black truncate pr-4 lowercase">
             {project.id === "new"
-              ? "Create New Project"
-              : `Edit Project: ${project.name}`}
+              ? "create new project"
+              : `edit project: ${project.name}`}
           </h2>
           <button
             onClick={() => setIsOpen(false)}
-            className="text-black hover:text-red-500 font-bold text-xl flex-shrink-0"
+            className="text-black hover:text-red-500 font-bold text-xl flex-shrink-0 lowercase"
           >
-            [X] CLOSE
+            [x] close
           </button>
         </div>
 
@@ -100,7 +100,7 @@ export default function AdminEditModal() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <label className="flex flex-col gap-2 font-bold">
-              Name
+              name
               <input
                 type="text"
                 value={name}
@@ -109,7 +109,7 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold">
-              Slug (SEO URL)
+              slug (seo url)
               <input
                 type="text"
                 value={slug}
@@ -118,7 +118,7 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold md:col-span-2">
-              Description
+              description
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -126,7 +126,7 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold">
-              Header Image URL
+              header image url
               <input
                 type="text"
                 value={headerImage}
@@ -135,7 +135,7 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold">
-              GitHub URL
+              github url
               <input
                 type="text"
                 value={githubUrl}
@@ -144,7 +144,7 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold">
-              Live URL
+              live url
               <input
                 type="text"
                 value={liveUrl}
@@ -154,7 +154,7 @@ export default function AdminEditModal() {
             </label>
             <div className="flex gap-4">
               <label className="flex flex-col gap-2 font-bold w-1/2">
-                Live URL Text
+                live url text
                 <input
                   type="text"
                   value={liveUrlText}
@@ -164,7 +164,7 @@ export default function AdminEditModal() {
                 />
               </label>
               <label className="flex flex-col gap-2 font-bold w-1/2">
-                Live URL Icon
+                live url icon
                 <input
                   type="text"
                   value={liveUrlIcon}
@@ -177,7 +177,7 @@ export default function AdminEditModal() {
           </div>
 
           <div className="flex flex-col gap-2 font-bold flex-1">
-            <span className="mb-2">Markdown Content</span>
+            <span className="mb-2">markdown content</span>
             <div className="border-2 border-black flex-1 min-h-[400px]">
               <MDEditor
                 value={content}
@@ -190,23 +190,23 @@ export default function AdminEditModal() {
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 border-t-4 border-black bg-gray-50 flex justify-end gap-4">
+        <div className="p-4 sm:p-6 border-t-2 border-black bg-white flex justify-end gap-4">
           <button
             onClick={() => setIsOpen(false)}
-            className="px-6 py-2 border-2 border-black font-bold hover:bg-gray-200 transition-colors"
+            className="px-6 py-2 border-2 border-black font-bold hover:border-4 transition-all lowercase bg-white text-black"
           >
-            CANCEL
+            cancel
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-6 py-2 border-2 border-black bg-black text-white font-bold hover:bg-black/80 transition-colors disabled:opacity-50"
+            className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 transition-all disabled:opacity-50 lowercase"
           >
             {isSaving
-              ? "SAVING..."
+              ? "saving..."
               : project.id === "new"
-                ? "CREATE PROJECT"
-                : "SAVE CHANGES"}
+                ? "create project"
+                : "save changes"}
           </button>
         </div>
       </div>

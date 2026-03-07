@@ -45,14 +45,14 @@ function SortableProjectItem({
         <div
           {...attributes}
           {...listeners}
-          className="absolute top-2 right-2 z-10 bg-white border-2 border-black px-2 py-1 cursor-grab active:cursor-grabbing font-bold text-sm shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-gray-100 transition-colors"
+          className="absolute top-2 right-2 z-10 bg-white border-2 border-black px-2 py-1 cursor-grab active:cursor-grabbing font-bold text-sm hover:border-4 transition-all"
         >
-          DRAG
+          drag
         </div>
       )}
       {admin && (
         <button
-          className="absolute top-2 left-2 z-10 bg-black text-white border-2 border-black px-2 py-1 font-bold text-sm hover:bg-gray-800 transition-colors shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+          className="absolute top-2 left-2 z-10 bg-white text-black border-2 border-black px-2 py-1 font-bold text-sm hover:border-4 transition-all"
           onClick={(e) => {
             e.preventDefault();
             // Dispatch custom event to open the edit modal (to be implemented next)
@@ -62,7 +62,7 @@ function SortableProjectItem({
             window.dispatchEvent(event);
           }}
         >
-          EDIT
+          edit
         </button>
       )}
       <ProjectCard
@@ -147,6 +147,7 @@ export default function ClientProjectList({
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      id="project-dnd-context"
     >
       <SortableContext items={projects} strategy={rectSortingStrategy}>
         <ul

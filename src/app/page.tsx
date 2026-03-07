@@ -15,8 +15,8 @@ export default async function Home() {
       <GreetingCard />
 
       {admin && (
-        <div className="w-full flex justify-between items-center bg-black text-white p-4 border-2 border-black font-bold mt-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-          <span>ADMIN PANEL</span>
+        <div className="w-full flex justify-between items-center bg-white text-black p-4 border-2 border-black font-bold mt-4">
+          <span>admin panel</span>
           <div className="flex gap-4">
             <NewProjectButton />
             <LogoutButton />
@@ -29,7 +29,7 @@ export default async function Home() {
           [projects]
           {admin && (
             <span className="text-sm font-normal text-red-500">
-              (Admin Mode)
+              (admin mode)
             </span>
           )}
         </h4>
