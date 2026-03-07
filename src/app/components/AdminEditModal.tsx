@@ -193,14 +193,14 @@ export default function AdminEditModal() {
         <div className="p-4 sm:p-6 border-t-2 border-black bg-white flex justify-end gap-4">
           <button
             onClick={() => setIsOpen(false)}
-            className="px-6 py-2 border-2 border-black font-bold hover:border-4 transition-all lowercase bg-white text-black"
+            className="px-6 py-2 border-2 border-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all lowercase bg-white text-black"
           >
             cancel
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 transition-all disabled:opacity-50 lowercase"
+            className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
           >
             {isSaving
               ? "saving..."
