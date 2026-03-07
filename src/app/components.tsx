@@ -1,63 +1,98 @@
 "use client";
 
-import { Description, Field, Input, Label, Textarea, Button } from '@headlessui/react'
+import {
+  Description,
+  Field,
+  Input,
+  Label,
+  Textarea,
+  Button,
+} from "@headlessui/react";
 import { logoutAction } from "./actions";
 import { useActionState } from "react";
 import clsx from "clsx";
 
 const initialState = {
-	message: ""
+  message: "",
 };
 
 export function LogoutButton() {
-	const [, action] = useActionState(logoutAction, initialState);
-	return (
-		<form action={action}>
-			<button>Sign out</button>
-		</form>
-	);
+  const [, action] = useActionState(logoutAction, initialState);
+  return (
+    <form action={action}>
+      <button className="px-4 py-1 bg-red-600 text-white border-2 border-transparent hover:border-red-600 hover:bg-black transition-colors">
+        Sign out
+      </button>
+    </form>
+  );
 }
 
-export function InputField({ fieldName, fieldDescription }: { fieldName: string; fieldDescription: string }) {
-	return (
-		<div className="w-full max-w-md px-4">
-			<Field>
-				<Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">{fieldName}</Label>
-				<Description className="text-sm/6 text-black/50">{fieldDescription}</Description>
-				<Input
-					id={fieldName}
-					name={fieldName}
-					className={clsx(
-						'mt-3 block w-full rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black',
-						'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25'
-					)}
-				/>
-			</Field>
-		</div>
-	);
-}
-
-export function TextField({ fieldName, fieldDescription }: { fieldName: string; fieldDescription: string }) {
+export function InputField({
+  fieldName,
+  fieldDescription,
+}: {
+  fieldName: string;
+  fieldDescription: string;
+}) {
   return (
     <div className="w-full max-w-md px-4">
       <Field>
-        <Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">{fieldName}</Label>
-        <Description className="text-sm/6 text-black/50">{fieldDescription}</Description>
+        <Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">
+          {fieldName}
+        </Label>
+        <Description className="text-sm/6 text-black/50">
+          {fieldDescription}
+        </Description>
+        <Input
+          id={fieldName}
+          name={fieldName}
+          className={clsx(
+            "mt-3 block w-full rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black",
+            "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25",
+          )}
+        />
+      </Field>
+    </div>
+  );
+}
+
+export function TextField({
+  fieldName,
+  fieldDescription,
+}: {
+  fieldName: string;
+  fieldDescription: string;
+}) {
+  return (
+    <div className="w-full max-w-md px-4">
+      <Field>
+        <Label htmlFor={fieldName} className="text-sm/6 font-medium text-black">
+          {fieldName}
+        </Label>
+        <Description className="text-sm/6 text-black/50">
+          {fieldDescription}
+        </Description>
         <Textarea
           id={fieldName}
           name={fieldName}
           className={clsx(
-            'mt-3 block w-full resize-none rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black',
-            'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25'
+            "mt-3 block w-full resize-none rounded-lg border-none bg-black/5 px-3 py-1.5 text-sm/6 text-black",
+            "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-black/25",
           )}
           rows={3}
         />
       </Field>
     </div>
-  )
+  );
 }
 
-export function ButtonThing({ buttonText, onClick }: { buttonText: string; onClick?: () => void }) {
+export function ButtonThing({
+  buttonText,
+  onClick,
+}: {
+  buttonText: string;
+  onClick?: () => void;
+}) {
   return (
     <Button
       onClick={onClick}
@@ -65,11 +100,18 @@ export function ButtonThing({ buttonText, onClick }: { buttonText: string; onCli
     >
       {buttonText}
     </Button>
-  )
+  );
 }
 
-
-export function Modal({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) {
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
   if (!isOpen) return null;
 
   return (

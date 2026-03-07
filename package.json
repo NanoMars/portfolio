@@ -10,11 +10,15 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@headlessui/react": "^2.2.9",
     "@lucia-auth/adapter-drizzle": "^1.1.0",
     "@pilcrowjs/db-query": "^0.0.2",
     "@pilcrowjs/object-parser": "^0.0.4",
     "@tailwindcss/typography": "^0.5.19",
+    "@uiw/react-md-editor": "^4.0.11",
     "@vercel/analytics": "^1.6.1",
     "arctic": "^3.7.0",
     "dotenv": "^17.3.1",
@@ -24,6 +28,7 @@
     "masonry-layout": "^4.2.2",
     "next": "^16.1.6",
     "next-auth": "^4.24.13",
+    "next-remove-imports": "^1.0.12",
     "pg": "^8.18.0",
     "postgres": "^3.4.8",
     "react": "^19.2.4",
