@@ -60,3 +60,7 @@ export async function updateProject(
 
   return updated_project ?? null;
 }
+
+export async function deleteProject(id: string): Promise<void> {
+  await db.delete(projectTable).where(eq(projectTable.id, id));
+}

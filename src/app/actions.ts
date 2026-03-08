@@ -7,7 +7,11 @@ import {
   invalidateSession,
 } from "@/lib/server/auth/session";
 import { redirect } from "next/navigation";
-import { createProject, updateProject } from "@/lib/server/db/queries/project";
+import {
+  createProject,
+  updateProject,
+  deleteProject,
+} from "@/lib/server/db/queries/project";
 import { revalidatePath } from "next/cache";
 import { isAdmin } from "@/lib/server/auth/admin";
 
@@ -91,9 +95,24 @@ export async function reorderProjectsAction(orderedIds: string[]) {
   const { user } = await getCurrentSession();
   if (!user || !isAdmin(user)) throw new Error("Unauthorized");
 
+  // Pass 1: Assign temporary negative priorities to avoid unique constraint collisions
+  const randomOffset = Math.floor(Math.random() * 1000000000);
+  for (let i = 0; i < orderedIds.length; i++) {
+    await updateProject({ id: orderedIds[i], priority: -randomOffset - i });
+  }
+
+  // Pass 2: Assign final 0-indexed priorities
   for (let i = 0; i < orderedIds.length; i++) {
     await updateProject({ id: orderedIds[i], priority: i });
   }
+  revalidatePath("/");
+}
+
+export async function deleteProjectAction(id: string) {
+  const { user } = await getCurrentSession();
+  if (!user || !isAdmin(user)) throw new Error("Unauthorized");
+
+  await deleteProject(id);
   revalidatePath("/");
 }
 

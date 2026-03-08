@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { updateProjectAction, createNewProjectAction } from "../actions";
+import {
+  updateProjectAction,
+  createNewProjectAction,
+  deleteProjectAction,
+} from "../actions";
 import type { Project } from "@/lib/schema_types";
 
 // Dynamically import MDEditor to avoid SSR hydration issues
@@ -12,6 +16,7 @@ export default function AdminEditModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Form states
   const [name, setName] = useState("");
@@ -72,6 +77,27 @@ export default function AdminEditModal() {
       alert("Failed to save project. Check console for details.");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!project || project.id === "new") return;
+    if (
+      !window.confirm(
+        `Are you sure you want to delete ${project.name}? This cannot be undone.`,
+      )
+    )
+      return;
+
+    setIsDeleting(true);
+    try {
+      await deleteProjectAction(project.id);
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to delete project", error);
+      alert("Failed to delete project. Check console for details.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -190,24 +216,37 @@ export default function AdminEditModal() {
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 border-t-2 border-black bg-white flex justify-end gap-4">
-          <button
-            onClick={() => setIsOpen(false)}
-            className="px-6 py-2 border-2 border-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all lowercase bg-white text-black"
-          >
-            cancel
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
-          >
-            {isSaving
-              ? "saving..."
-              : project.id === "new"
-                ? "create project"
-                : "save changes"}
-          </button>
+        <div className="p-4 sm:p-6 border-t-2 border-black bg-white flex justify-between gap-4">
+          {project.id !== "new" ? (
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting || isSaving}
+              className="px-6 py-2 border-2 border-black bg-white text-red-600 font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
+            >
+              {isDeleting ? "deleting..." : "delete project"}
+            </button>
+          ) : (
+            <div />
+          )}
+          <div className="flex gap-4">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-6 py-2 border-2 border-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all lowercase bg-white text-black"
+            >
+              cancel
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={isSaving || isDeleting}
+              className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
+            >
+              {isSaving
+                ? "saving..."
+                : project.id === "new"
+                  ? "create project"
+                  : "save changes"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
