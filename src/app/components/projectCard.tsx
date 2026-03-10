@@ -18,7 +18,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   headerImage,
   technologyIcons,
 }) => {
-  const href = slug ? `/projects/${slug}` : url || "#";
+  const href = slug ? `/projects/${slug}#content` : url || "#";
 
   return (
     <Link
