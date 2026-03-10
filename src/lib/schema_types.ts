@@ -1,5 +1,5 @@
-import type { InferSelectModel, InferInsertModel } from 'drizzle-orm';
-import * as schema from '@/lib/server/db/schema';
+import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
+import * as schema from "@/lib/server/db/schema";
 
 type Nullable<T> = { [P in keyof T]: T[P] | null };
 
@@ -17,13 +17,3 @@ export type SessionNullable = Nullable<Session>;
 export type Project = InferSelectModel<typeof schema.projectTable>;
 export type ProjectDraft = InferInsertModel<typeof schema.projectTable>;
 export type ProjectNullable = Nullable<Project>;
-
-// Technologies
-export type Technology = InferSelectModel<typeof schema.technologyTable>;
-export type TechnologyDraft = InferInsertModel<typeof schema.technologyTable>;
-export type TechnologyNullable = Nullable<Technology>;
-
-// ProjectTechnology (Join Table)
-export type ProjectTechnology = InferSelectModel<typeof schema.projectTechnologyTable>;
-export type ProjectTechnologyDraft = InferInsertModel<typeof schema.projectTechnologyTable>;
-export type ProjectTechnologyNullable = Nullable<ProjectTechnology>;
