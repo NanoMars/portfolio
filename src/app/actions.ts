@@ -1,6 +1,7 @@
 // src/app/actions.ts
 "use server";
 
+import { createClient } from "@supabase/supabase-js";
 import {
   deleteSessionTokenCookie,
   getCurrentSession,
@@ -70,6 +71,7 @@ export async function createNewProjectAction(payload: any) {
     liveUrlText: payload.liveUrlText || null,
     liveUrlIcon: payload.liveUrlIcon || null,
     content: payload.content || null,
+    visibility: payload.visibility || "public",
     priority,
   });
 
@@ -114,6 +116,46 @@ export async function deleteProjectAction(id: string) {
 
   await deleteProject(id);
   revalidatePath("/");
+}
+
+export async function uploadImageAction(formData: FormData) {
+  const { user } = await getCurrentSession();
+  if (!user || !isAdmin(user)) throw new Error("Unauthorized");
+
+  const file = formData.get("file") as File;
+  if (!file) throw new Error("No file provided");
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABSE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase credentials not configured");
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}.${fileExt}`;
+
+  const { data, error } = await supabase.storage
+    .from("project-headers")
+    .upload(fileName, file, {
+      contentType: file.type,
+      upsert: false,
+    });
+
+  if (error) {
+    console.error("Supabase upload error:", error);
+    throw new Error("Failed to upload image");
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from("project-headers")
+    .getPublicUrl(fileName);
+
+  return { url: publicUrlData.publicUrl };
 }
 
 interface ActionResult {

@@ -6,6 +6,7 @@ import {
   updateProjectAction,
   createNewProjectAction,
   deleteProjectAction,
+  uploadImageAction,
 } from "../actions";
 import type { Project } from "@/lib/schema_types";
 
@@ -17,6 +18,8 @@ export default function AdminEditModal() {
   const [project, setProject] = useState<Project | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Form states
   const [name, setName] = useState("");
@@ -28,6 +31,7 @@ export default function AdminEditModal() {
   const [liveUrlText, setLiveUrlText] = useState("");
   const [liveUrlIcon, setLiveUrlIcon] = useState("");
   const [content, setContent] = useState("");
+  const [visibility, setVisibility] = useState("public");
 
   useEffect(() => {
     const handleOpen = (e: Event) => {
@@ -43,12 +47,73 @@ export default function AdminEditModal() {
       setLiveUrlText(p.liveUrlText || "");
       setLiveUrlIcon(p.liveUrlIcon || "");
       setContent(p.content || "");
+      setVisibility(p.visibility || "public");
       setIsOpen(true);
     };
 
     window.addEventListener("open-edit-modal", handleOpen);
     return () => window.removeEventListener("open-edit-modal", handleOpen);
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const { url } = await uploadImageAction(formData);
+      setHeaderImage(url);
+    } catch (error) {
+      console.error("Failed to upload image", error);
+      alert("Failed to upload image. Check console for details.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const { url } = await uploadImageAction(formData);
+      setHeaderImage(url);
+    } catch (error) {
+      console.error("Failed to upload image", error);
+      alert("Failed to upload image. Check console for details.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
 
   const handleSave = async () => {
     if (!project) return;
@@ -64,6 +129,7 @@ export default function AdminEditModal() {
         liveUrlText: liveUrlText || null,
         liveUrlIcon: liveUrlIcon || null,
         content: content || null,
+        visibility,
       };
 
       if (project.id === "new") {
@@ -114,9 +180,12 @@ export default function AdminEditModal() {
           </h2>
           <button
             onClick={() => setIsOpen(false)}
-            className="text-black hover:text-red-500 font-bold text-xl flex-shrink-0 lowercase"
+            className="group text-black hover:text-red-500 transition-colors duration-200 font-bold text-xl flex-shrink-0 lowercase flex items-center"
           >
-            [x] close
+            <span className="relative">
+              close
+              <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+            </span>
           </button>
         </div>
 
@@ -144,6 +213,18 @@ export default function AdminEditModal() {
               />
             </label>
             <label className="flex flex-col gap-2 font-bold md:col-span-2">
+              visibility
+              <select
+                value={visibility}
+                onChange={(e) => setVisibility(e.target.value)}
+                className="border-2 border-black p-2 font-normal focus:outline-none focus:ring-2 focus:ring-black bg-white"
+              >
+                <option value="public">public</option>
+                <option value="private">private</option>
+                <option value="unlisted">unlisted</option>
+              </select>
+            </label>
+            <label className="flex flex-col gap-2 font-bold md:col-span-2">
               description
               <textarea
                 value={description}
@@ -151,15 +232,45 @@ export default function AdminEditModal() {
                 className="border-2 border-black p-2 font-normal h-24 resize-y focus:outline-none focus:ring-2 focus:ring-black"
               />
             </label>
-            <label className="flex flex-col gap-2 font-bold">
-              header image url
-              <input
-                type="text"
-                value={headerImage}
-                onChange={(e) => setHeaderImage(e.target.value)}
-                className="border-2 border-black p-2 font-normal focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </label>
+            <div className="flex flex-col gap-2 font-bold">
+              <label>header image</label>
+              <div
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`relative flex flex-row items-center w-full p-1 border-2 border-dashed transition-colors duration-200 ${
+                  isDragging
+                    ? "border-black bg-gray-100"
+                    : "border-black bg-white"
+                }`}
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={isUploadingImage}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                />
+                <div className="flex items-center gap-3 w-full pointer-events-none">
+                  <div className="border-2 border-black bg-white text-black font-bold px-3 py-1 text-sm">
+                    Browse...
+                  </div>
+                  <span className="font-normal text-sm truncate flex-1 text-black">
+                    {headerImage
+                      ? headerImage.split("/").pop()
+                      : "select a file"}
+                  </span>
+                  <span className="font-normal text-sm text-gray-500 whitespace-nowrap pr-2">
+                    or drop here
+                  </span>
+                </div>
+              </div>
+              {isUploadingImage && (
+                <span className="text-sm font-normal text-gray-500">
+                  uploading...
+                </span>
+              )}
+            </div>
             <label className="flex flex-col gap-2 font-bold">
               github url
               <input
@@ -221,7 +332,7 @@ export default function AdminEditModal() {
             <button
               onClick={handleDelete}
               disabled={isDeleting || isSaving}
-              className="px-6 py-2 border-2 border-black bg-white text-red-600 font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
+              className="btn-outline px-6 py-2 text-red-600 font-bold disabled:opacity-50"
             >
               {isDeleting ? "deleting..." : "delete project"}
             </button>
@@ -231,14 +342,14 @@ export default function AdminEditModal() {
           <div className="flex gap-4">
             <button
               onClick={() => setIsOpen(false)}
-              className="px-6 py-2 border-2 border-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all lowercase bg-white text-black"
+              className="btn-outline px-6 py-2 font-bold"
             >
               cancel
             </button>
             <button
               onClick={handleSave}
               disabled={isSaving || isDeleting}
-              className="px-6 py-2 border-2 border-black bg-white text-black font-bold hover:border-4 hover:px-[22px] hover:py-[6px] transition-all disabled:opacity-50 lowercase"
+              className="btn-outline px-6 py-2 font-bold disabled:opacity-50"
             >
               {isSaving
                 ? "saving..."
