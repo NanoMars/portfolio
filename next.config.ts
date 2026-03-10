@@ -6,7 +6,9 @@ let commitDate = "unknown";
 
 try {
   commitHash = execSync('git log -1 --format="%h"').toString().trim();
-  commitDate = execSync('git log -1 --format="%cd" --date=format:"%B %d, %Y"').toString().trim();
+  commitDate = execSync('git log -1 --format="%cd" --date=format:"%B %d, %Y"')
+    .toString()
+    .trim();
 } catch (e) {
   // Ignore
 }
@@ -14,16 +16,23 @@ try {
 const nextConfig: NextConfig = {
   /* config options here */
   env: {
-    COMMIT_HASH: process.env.VERCEL_GIT_COMMIT_SHA ? process.env.VERCEL_GIT_COMMIT_SHA.substring(0, 7) : commitHash,
+    COMMIT_HASH: process.env.VERCEL_GIT_COMMIT_SHA
+      ? process.env.VERCEL_GIT_COMMIT_SHA.substring(0, 7)
+      : commitHash,
     COMMIT_DATE: commitDate,
   },
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'hc-cdn.hel1.your-objectstorage.com',
+        protocol: "https",
+        hostname: "hc-cdn.hel1.your-objectstorage.com",
       },
     ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
   },
 };
 

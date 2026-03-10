@@ -1,2 +1,19 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@layer components {
+    .btn-outline {
+        background-color: #ffffff;
+        color: #000000;
+        border: 2px solid #000000;
+        text-transform: lowercase;
+        transition:
+            background-color 200ms,
+            color 200ms,
+            border-color 200ms;
+    }
+
+    .btn-outline:hover {
+        background-color: #e5e7eb;
+    }
+}

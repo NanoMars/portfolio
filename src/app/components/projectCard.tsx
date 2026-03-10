@@ -7,7 +7,6 @@ interface ProjectCardProps {
   slug?: string | null;
   description?: string;
   headerImage?: string;
-  technologyIcons?: string[];
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -16,9 +15,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   slug,
   description = "",
   headerImage,
-  technologyIcons,
 }) => {
-  const href = slug ? `/projects/${slug}` : url || "#";
+  const href = slug ? `/projects/${slug}#content` : url || "#";
 
   return (
     <Link
@@ -87,24 +85,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             >
               {description}
             </p>
-            {technologyIcons && technologyIcons.length > 0 && (
-              <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                {technologyIcons.map((icon, index) => (
-                  <img
-                    key={index}
-                    src={icon}
-                    alt="technology icon"
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      marginTop: "10px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

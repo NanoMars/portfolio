@@ -53,50 +53,7 @@ export const projectTable = pgTable("project", {
   liveUrlIcon: text("live_url_icon"),
   headerImage: text("header_image"),
   headerImageAlt: text("header_image_alt"),
+  visibility: text("visibility").default("public").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   lastUpdated: timestamp("last_updated").defaultNow(),
 });
-
-export const projectRelations = relations(projectTable, ({ many }) => ({
-  technologies: many(projectTechnologyTable),
-}));
-
-export const technologyTable = pgTable("technology", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name"),
-  slug: text("slug"),
-  iconUrl: text("icon_url"),
-  iconAlt: text("icon_alt"),
-  createdAt: timestamp("created_at").defaultNow(),
-  lastUpdated: timestamp("last_updated").defaultNow(),
-});
-
-export const technologyRelations = relations(technologyTable, ({ many }) => ({
-  projects: many(projectTechnologyTable),
-}));
-
-export const projectTechnologyTable = pgTable("project_technology", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  projectId: uuid("project_id")
-    .references(() => projectTable.id)
-    .notNull(),
-  technologyId: uuid("technology_id")
-    .references(() => technologyTable.id)
-    .notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  lastUpdated: timestamp("last_updated").defaultNow(),
-});
-
-export const projectTechnologyRelations = relations(
-  projectTechnologyTable,
-  ({ one }) => ({
-    project: one(projectTable, {
-      fields: [projectTechnologyTable.projectId],
-      references: [projectTable.id],
-    }),
-    technology: one(technologyTable, {
-      fields: [projectTechnologyTable.technologyId],
-      references: [technologyTable.id],
-    }),
-  }),
-);
