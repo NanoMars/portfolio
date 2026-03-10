@@ -27,10 +27,7 @@ export default function NewProjectButton() {
   };
 
   return (
-    <button
-      onClick={handleNewProject}
-      className="px-4 py-1 bg-white text-black border-2 border-black hover:border-4 hover:px-[14px] hover:py-[2px] transition-all lowercase"
-    >
+    <button onClick={handleNewProject} className="btn-outline px-4 py-1">
       + new project
     </button>
   );
