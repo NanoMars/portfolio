@@ -45,14 +45,14 @@ function SortableProjectItem({
         <div
           {...attributes}
           {...listeners}
-          className="absolute top-2 right-2 z-10 bg-white border-2 border-black px-2 py-1 cursor-grab active:cursor-grabbing font-bold text-sm hover:border-4 hover:px-[6px] hover:py-[2px] transition-all"
+          className="btn-outline absolute top-2 right-2 z-10 px-2 py-1 cursor-grab active:cursor-grabbing font-bold text-sm"
         >
           drag
         </div>
       )}
       {admin && (
         <button
-          className="absolute top-2 left-2 z-10 bg-white text-black border-2 border-black px-2 py-1 font-bold text-sm hover:border-4 hover:px-[6px] hover:py-[2px] transition-all"
+          className="btn-outline absolute top-2 left-2 z-10 px-2 py-1 font-bold text-sm"
           onClick={(e) => {
             e.preventDefault();
             // Dispatch custom event to open the edit modal (to be implemented next)
@@ -64,6 +64,11 @@ function SortableProjectItem({
         >
           edit
         </button>
+      )}
+      {admin && project.visibility !== "public" && (
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 bg-yellow-300 border-2 border-black text-black px-2 py-1 font-bold text-sm lowercase">
+          {project.visibility}
+        </div>
       )}
       <ProjectCard
         title={project.name}

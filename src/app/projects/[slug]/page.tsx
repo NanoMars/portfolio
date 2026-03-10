@@ -6,11 +6,16 @@ import { eq } from "drizzle-orm";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import * as LucideIcons from "lucide-react";
+import { getCurrentSession } from "@/lib/server/auth/session";
+import { isAdmin } from "@/lib/server/auth/admin";
+import Link from "next/link";
+import BottomBackButton from "../../components/BottomBackButton";
+import RemoveHash from "../../components/RemoveHash";
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 async function getProject(slug: string) {
@@ -24,7 +29,8 @@ async function getProject(slug: string) {
 export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
-  const project = await getProject(params.slug);
+  const { slug } = await params;
+  const project = await getProject(slug);
 
   if (!project) {
     return {
@@ -32,9 +38,14 @@ export async function generateMetadata({
     };
   }
 
+  const isUnlisted = project.visibility === "unlisted";
+  const isPrivate = project.visibility === "private";
+
   return {
-    title: `${project.name} | Portfolio`,
+    title: `${project.name} | Armand`,
     description: project.description || `Read about my work on ${project.name}`,
+    robots:
+      isUnlisted || isPrivate ? { index: false, follow: false } : undefined,
     openGraph: {
       title: project.name,
       description:
@@ -76,19 +87,39 @@ const DynamicIcon = ({
 };
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const project = await getProject(params.slug);
+  const { slug } = await params;
+  const project = await getProject(slug);
 
   if (!project) {
     notFound();
   }
 
+  if (project.visibility === "private") {
+    const { user } = await getCurrentSession();
+    if (!user || !isAdmin(user)) {
+      notFound();
+    }
+  }
+
   return (
     <main className="max-w-4xl mx-auto py-10 px-4">
-      <article>
+      <RemoveHash />
+      <div className="mb-8 flex justify-start">
+        <Link
+          href="/"
+          className="group text-black hover:text-gray-700 transition-colors duration-200 py-2 font-bold flex items-center lowercase"
+        >
+          <span className="relative">
+            back
+            <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gray-700 transition-all duration-300 group-hover:w-full"></span>
+          </span>
+        </Link>
+      </div>
+      <article id="content" className="scroll-mt-6">
         {/* Header Image */}
         {project.headerImage && (
           <div
-            className="w-full h-64 md:h-96 bg-cover bg-center mb-8 border-2 border-black"
+            className="w-full h-64 md:h-96 bg-cover bg-center mb-8"
             style={{ backgroundImage: `url(${project.headerImage})` }}
             role="img"
             aria-label={
@@ -106,33 +137,35 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         )}
 
         {/* Action Bar (Links to GitHub & Live Project) */}
-        <div className="flex flex-wrap gap-4 mb-10">
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 border-2 border-black font-bold hover:bg-black hover:text-white transition-colors flex items-center gap-2"
-            >
-              <DynamicIcon name="github" />
-              GitHub
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 border-2 border-black font-bold hover:bg-black hover:text-white transition-colors flex items-center gap-2"
-            >
-              <DynamicIcon name={project.liveUrlIcon} />
-              {project.liveUrlText || "Visit"}
-            </a>
-          )}
-        </div>
+        {(project.githubUrl || project.liveUrl) && (
+          <div className="flex flex-wrap gap-4 mb-8">
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border-2 border-black font-bold hover:bg-black hover:text-white transition-colors flex items-center gap-2"
+              >
+                <DynamicIcon name="github" />
+                GitHub
+              </a>
+            )}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 border-2 border-black font-bold hover:bg-black hover:text-white transition-colors flex items-center gap-2"
+              >
+                <DynamicIcon name={project.liveUrlIcon} />
+                {project.liveUrlText || "Visit"}
+              </a>
+            )}
+          </div>
+        )}
 
         {/* Markdown Content */}
-        <div className="prose prose-lg prose-black max-w-none border-t-2 border-black pt-10 mt-10">
+        <div className="prose prose-lg prose-black max-w-none border-y-2 border-black py-10">
           {project.content ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {project.content}
@@ -144,6 +177,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           )}
         </div>
       </article>
+      <BottomBackButton />
     </main>
   );
 }

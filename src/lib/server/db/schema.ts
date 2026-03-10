@@ -53,6 +53,7 @@ export const projectTable = pgTable("project", {
   liveUrlIcon: text("live_url_icon"),
   headerImage: text("header_image"),
   headerImageAlt: text("header_image_alt"),
+  visibility: text("visibility").default("public").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   lastUpdated: timestamp("last_updated").defaultNow(),
 });

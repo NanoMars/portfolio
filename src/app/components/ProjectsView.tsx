@@ -8,7 +8,10 @@ export default async function ProjectsView({
   limit?: number;
   admin?: boolean;
 }) {
-  const rawProjects = await getAllProject();
+  const allProjects = await getAllProject();
+  const rawProjects = admin
+    ? allProjects
+    : allProjects.filter((p) => p.visibility === "public");
 
   if (!rawProjects || rawProjects.length === 0) {
     return (
