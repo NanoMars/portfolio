@@ -21,72 +21,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <Link
       href={href}
-      className="border-2 border-black"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        textDecoration: "none",
-        color: "inherit",
-        width: "100%",
-        height: "319px",
-        borderRadius: "0",
-        overflow: "hidden",
-        fontFamily: "sans-serif",
-        backgroundColor: "#fff",
-      }}
+      className="border-2 border-black flex flex-col bg-white overflow-hidden h-[280px]"
     >
-      <div style={{}}>
-        {/* Header */}
-        <div
-          style={{
-            paddingTop: "40%",
-            background: headerImage
-              ? `url(${headerImage}) center/cover`
-              : "url(https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/project-headers//defaultbg.png) center/cover",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-          }}
-        ></div>
+      {/* Header */}
+      <div
+        className="w-full relative shrink-0 h-[140px]"
+        style={{
+          background: headerImage
+            ? `url(${headerImage}) center/cover`
+            : "url(https://czxrgkpzsfztyahycugs.supabase.co/storage/v1/object/public/project-headers//defaultbg.png) center/cover",
+        }}
+      />
 
-        {/* Text Content */}
-        <div
-          style={{
-            padding: "20px",
-            textAlign: "left",
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-          }}
-        >
-          <h2
+      {/* Text Content */}
+      <div className="p-4 flex flex-col gap-1 border-t-2 border-black flex-1 overflow-hidden">
+        <h2 className="m-0 text-xl font-bold font-sans truncate shrink-0">
+          {title}
+        </h2>
+        {description && (
+          <p
+            className="m-0 text-gray-600 text-[1rem] leading-snug font-sans flex-1"
             style={{
-              margin: 0,
-              fontSize: "1.5rem",
-              whiteSpace: "nowrap",
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              textOverflow: "ellipsis",
             }}
           >
-            {title}
-          </h2>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <p
-              style={{
-                marginTop: "5px",
-                color: "#555",
-                fontSize: "1.1rem",
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              }}
-            >
-              {description}
-            </p>
-          </div>
-        </div>
+            {description}
+          </p>
+        )}
       </div>
     </Link>
   );
