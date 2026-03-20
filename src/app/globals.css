@@ -17,3 +17,8 @@
         background-color: #e5e7eb;
     }
 }
+
+.prose img {
+    outline: 1px solid rgba(0, 0, 0, 0.102);
+    outline-offset: -1px;
+}
