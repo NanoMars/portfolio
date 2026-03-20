@@ -9,8 +9,8 @@ import * as LucideIcons from "lucide-react";
 import { getCurrentSession } from "@/lib/server/auth/session";
 import { isAdmin } from "@/lib/server/auth/admin";
 import Link from "next/link";
-import BottomBackButton from "../../components/BottomBackButton";
-import RemoveHash from "../../components/RemoveHash";
+import BottomBackButton from "../components/BottomBackButton";
+import RemoveHash from "../components/RemoveHash";
 
 interface ProjectPageProps {
   params: Promise<{

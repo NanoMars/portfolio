@@ -8,6 +8,14 @@ import type {
   ProjectDraft,
 } from "@/lib/schema_types";
 
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  const [project] = await db
+    .select()
+    .from(projectTable)
+    .where(eq(projectTable.slug, slug));
+  return project ?? null;
+}
+
 export async function getProjectFromId(id: string): Promise<Project | null> {
   const [project] = await db
     .select()

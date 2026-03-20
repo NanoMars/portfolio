@@ -1,0 +1,15 @@
+#!/bin/sh
+
+while read local_ref local_sha remote_ref remote_sha; do
+  if echo "$remote_ref" | grep -q "refs/heads/main"; then
+    echo "🔍 Pushing to main — running build check..."
+    npm run build
+    if [ $? -ne 0 ]; then
+      echo "❌ Build failed. Push to main is blocked."
+      exit 1
+    fi
+    echo "✅ Build passed. Proceeding with push."
+  fi
+done
+
+exit 0

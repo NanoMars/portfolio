@@ -1,6 +1,24 @@
 // src/app/actions.ts
 "use server";
 
+const RESERVED_SLUGS = new Set([
+  "login",
+  "projects",
+  "api",
+  "_next",
+  "sitemap",
+  "robots",
+]);
+
+function validateSlug(slug: string | null | undefined) {
+  if (!slug) return;
+  if (RESERVED_SLUGS.has(slug.toLowerCase())) {
+    throw new Error(
+      `"${slug}" is a reserved path and cannot be used as a slug`,
+    );
+  }
+}
+
 import { createClient } from "@supabase/supabase-js";
 import {
   deleteSessionTokenCookie,
@@ -12,6 +30,7 @@ import {
   createProject,
   updateProject,
   deleteProject,
+  getProjectBySlug,
 } from "@/lib/server/db/queries/project";
 import { revalidatePath } from "next/cache";
 import { isAdmin } from "@/lib/server/auth/admin";
@@ -56,6 +75,17 @@ export async function createNewProjectAction(payload: any) {
   const { user } = await getCurrentSession();
   if (!user || !isAdmin(user)) throw new Error("Unauthorized");
 
+  if (payload.slug) validateSlug(payload.slug);
+
+  if (payload.slug) {
+    const existing = await getProjectBySlug(payload.slug);
+    if (existing) {
+      throw new Error(
+        `Slug "${payload.slug}" is already in use by another project`,
+      );
+    }
+  }
+
   let priority = payload.priority;
   if (priority === undefined || priority === null || isNaN(priority)) {
     priority = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
@@ -86,10 +116,21 @@ export async function updateProjectAction(payload: {
   const { user } = await getCurrentSession();
   if (!user || !isAdmin(user)) throw new Error("Unauthorized");
 
+  if (payload.slug) validateSlug(payload.slug);
+
+  if (payload.slug) {
+    const existing = await getProjectBySlug(payload.slug);
+    if (existing && existing.id !== payload.id) {
+      throw new Error(
+        `Slug "${payload.slug}" is already in use by another project`,
+      );
+    }
+  }
+
   await updateProject(payload as any);
   revalidatePath("/");
   if (payload.slug) {
-    revalidatePath(`/projects/${payload.slug}`);
+    revalidatePath(`/${payload.slug}`);
   }
 }
 

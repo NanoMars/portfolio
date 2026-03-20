@@ -25,9 +25,11 @@ import type { Project } from "@/lib/schema_types";
 function SortableProjectItem({
   project,
   admin,
+  allSlugs,
 }: {
   project: Project;
   admin: boolean;
+  allSlugs: string[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: project.id });
@@ -57,7 +59,7 @@ function SortableProjectItem({
             e.preventDefault();
             // Dispatch custom event to open the edit modal (to be implemented next)
             const event = new CustomEvent("open-edit-modal", {
-              detail: project,
+              detail: { project, allSlugs },
             });
             window.dispatchEvent(event);
           }}
@@ -164,6 +166,9 @@ export default function ClientProjectList({
               key={project.id}
               project={project}
               admin={admin}
+              allSlugs={projects
+                .map((p) => p.slug)
+                .filter((s): s is string => !!s)}
             />
           ))}
         </ul>

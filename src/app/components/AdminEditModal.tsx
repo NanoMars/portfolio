@@ -13,9 +13,19 @@ import type { Project } from "@/lib/schema_types";
 // Dynamically import MDEditor to avoid SSR hydration issues
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
+const RESERVED_SLUGS = [
+  "login",
+  "projects",
+  "api",
+  "_next",
+  "sitemap",
+  "robots",
+];
+
 export default function AdminEditModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
+  const [allSlugs, setAllSlugs] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -33,10 +43,24 @@ export default function AdminEditModal() {
   const [content, setContent] = useState("");
   const [visibility, setVisibility] = useState("public");
 
+  const slugError =
+    slug && RESERVED_SLUGS.includes(slug.toLowerCase())
+      ? `"${slug}" is a reserved path and cannot be used as a slug`
+      : slug &&
+          allSlugs
+            .filter((s) => s !== project?.slug)
+            .includes(slug.toLowerCase())
+        ? `"${slug}" is already used by another project`
+        : null;
+
   useEffect(() => {
     const handleOpen = (e: Event) => {
-      const customEvent = e as CustomEvent<Project>;
-      const p = customEvent.detail;
+      const customEvent = e as CustomEvent<{
+        project: Project;
+        allSlugs: string[];
+      }>;
+      const { project: p, allSlugs: slugs } = customEvent.detail;
+      setAllSlugs(slugs);
       setProject(p);
       setName(p.name || "");
       setSlug(p.slug || "");
@@ -203,15 +227,20 @@ export default function AdminEditModal() {
                 className="border-2 border-black p-2 font-normal focus:outline-none focus:ring-2 focus:ring-black"
               />
             </label>
-            <label className="flex flex-col gap-2 font-bold">
+            <div className="flex flex-col gap-2 font-bold">
               slug (seo url)
               <input
                 type="text"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="border-2 border-black p-2 font-normal focus:outline-none focus:ring-2 focus:ring-black"
+                className={`border-2 p-2 font-normal focus:outline-none focus:ring-2 ${slugError ? "border-red-500 focus:ring-red-500" : "border-black focus:ring-black"}`}
               />
-            </label>
+              {slugError && (
+                <span className="text-sm font-normal text-red-500">
+                  {slugError}
+                </span>
+              )}
+            </div>
             <label className="flex flex-col gap-2 font-bold md:col-span-2">
               visibility
               <select
@@ -348,7 +377,7 @@ export default function AdminEditModal() {
             </button>
             <button
               onClick={handleSave}
-              disabled={isSaving || isDeleting}
+              disabled={isSaving || isDeleting || !!slugError}
               className="btn-outline px-6 py-2 font-bold disabled:opacity-50"
             >
               {isSaving
