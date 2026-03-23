@@ -2,7 +2,6 @@ import GreetingCard from "./components/greetingCard";
 import ProjectsView from "./components/ProjectsView";
 import { getCurrentSession } from "@/lib/server/auth/session";
 import { isAdmin } from "@/lib/server/auth/admin";
-import AdminEditModal from "./components/AdminEditModal";
 import { LogoutButton } from "./components";
 import NewProjectButton from "./components/NewProjectButton";
 
@@ -35,7 +34,6 @@ export default async function Home() {
         </h4>
         <ProjectsView admin={admin} />
       </div>
-      {admin && <AdminEditModal />}
     </div>
   );
 }

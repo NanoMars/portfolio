@@ -21,15 +21,14 @@ import { CSS } from "@dnd-kit/utilities";
 import ProjectCard from "./projectCard";
 import { reorderProjectsAction } from "../actions";
 import type { Project } from "@/lib/schema_types";
+import Link from "next/link";
 
 function SortableProjectItem({
   project,
   admin,
-  allSlugs,
 }: {
   project: Project;
   admin: boolean;
-  allSlugs: string[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: project.id });
@@ -52,20 +51,13 @@ function SortableProjectItem({
           drag
         </div>
       )}
-      {admin && (
-        <button
+      {admin && project.slug && (
+        <Link
+          href={`/${project.slug}`}
           className="btn-outline absolute top-2 left-2 z-10 px-2 py-1 font-bold text-sm"
-          onClick={(e) => {
-            e.preventDefault();
-            // Dispatch custom event to open the edit modal (to be implemented next)
-            const event = new CustomEvent("open-edit-modal", {
-              detail: { project, allSlugs },
-            });
-            window.dispatchEvent(event);
-          }}
         >
           edit
-        </button>
+        </Link>
       )}
       {admin && project.visibility !== "public" && (
         <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 bg-yellow-300 border-2 border-black text-black px-2 py-1 font-bold text-sm lowercase">
@@ -166,9 +158,6 @@ export default function ClientProjectList({
               key={project.id}
               project={project}
               admin={admin}
-              allSlugs={projects
-                .map((p) => p.slug)
-                .filter((s): s is string => !!s)}
             />
           ))}
         </ul>

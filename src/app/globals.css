@@ -22,3 +22,21 @@
     outline: 1px solid rgba(0, 0, 0, 0.102);
     outline-offset: -1px;
 }
+
+/* Editor.js overrides */
+.editorjs-container .codex-editor {
+    font-family: inherit;
+}
+
+.editorjs-container .ce-block__content {
+    max-width: 100%;
+}
+
+.editorjs-container .ce-toolbar__content {
+    max-width: 100%;
+}
+
+.editorjs-container .ce-paragraph {
+    font-size: inherit;
+    line-height: inherit;
+}
