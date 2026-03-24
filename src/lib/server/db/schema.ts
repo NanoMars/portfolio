@@ -45,6 +45,7 @@ export const projectTable = pgTable("project", {
   slug: text("slug").unique(),
   description: text("description"),
   content: text("content"),
+  editorjsContent: text("editorjs_content"),
   priority: integer("priority").unique(),
   url: text("url"),
   githubUrl: text("github_url"),
@@ -54,7 +55,7 @@ export const projectTable = pgTable("project", {
   headerImage: text("header_image"),
   headerImageAlt: text("header_image_alt"),
   contentFormat: text("content_format").default("markdown"),
-  visibility: text("visibility").default("public").notNull(),
+  visibility: text("visibility").default("private").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   lastUpdated: timestamp("last_updated").defaultNow(),
 });

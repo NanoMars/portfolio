@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, type KeyboardEvent, type ElementType } from "react";
+import { useState, useRef, useEffect, useCallback, type KeyboardEvent, type ElementType } from "react";
 
 interface InlineTextFieldProps {
   value: string;
@@ -29,12 +29,21 @@ export default function InlineTextField({
     setDraft(value);
   }, [value]);
 
+  const autoResize = useCallback(() => {
+    const el = inputRef.current;
+    if (el && multiline) {
+      el.style.height = "auto";
+      el.style.height = el.scrollHeight + "px";
+    }
+  }, [multiline]);
+
   useEffect(() => {
     if (editing && inputRef.current) {
       inputRef.current.focus();
       inputRef.current.select();
+      autoResize();
     }
-  }, [editing]);
+  }, [editing, autoResize]);
 
   const commit = () => {
     setEditing(false);
@@ -71,16 +80,21 @@ export default function InlineTextField({
     const sharedProps = {
       ref: inputRef as any,
       value: draft,
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setDraft(e.target.value),
+      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setDraft(e.target.value);
+        if (multiline) {
+          // Auto-resize on next frame after value updates
+          requestAnimationFrame(() => autoResize());
+        }
+      },
       onBlur: commit,
       onKeyDown: handleKeyDown,
       placeholder,
-      className: `${className} outline-none border-b-2 border-black bg-transparent w-full`,
+      className: `${className} outline-none bg-transparent w-full`,
     };
 
     return multiline ? (
-      <textarea {...sharedProps} rows={3} />
+      <textarea {...sharedProps} rows={1} style={{ resize: "none", overflow: "hidden" }} />
     ) : (
       <input type="text" {...sharedProps} />
     );
@@ -89,8 +103,7 @@ export default function InlineTextField({
   return (
     <Tag
       className={`${className} cursor-text hover:bg-gray-50 transition-colors duration-150 rounded-sm`}
-      onDoubleClick={() => setEditing(true)}
-      title="Double-click to edit"
+      onClick={() => setEditing(true)}
     >
       {value || (
         <span className="text-gray-400 italic">

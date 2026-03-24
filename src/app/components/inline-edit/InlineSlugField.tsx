@@ -64,9 +64,11 @@ export default function InlineSlugField({
 
   if (!admin) return null;
 
+  const baseClasses = "text-xs text-gray-400 font-mono";
+
   if (editing) {
     return (
-      <div className="flex items-center gap-1 text-xs text-gray-500">
+      <span className={`inline-flex items-center gap-0 ${baseClasses}`}>
         <span>/</span>
         <input
           ref={inputRef}
@@ -88,18 +90,18 @@ export default function InlineSlugField({
               setEditing(false);
             }
           }}
-          className="border-b border-black bg-transparent outline-none text-xs font-mono w-40"
+          className={`${baseClasses} bg-transparent outline-none`}
+          style={{ width: Math.max(draft.length + 2, 6) + "ch" }}
         />
-        {error && <span className="text-red-500">{error}</span>}
-      </div>
+        {error && <span className="text-red-500 ml-2">{error}</span>}
+      </span>
     );
   }
 
   return (
     <span
-      onDoubleClick={() => setEditing(true)}
-      className="text-xs text-gray-400 font-mono cursor-text hover:text-gray-600 transition-colors"
-      title="Double-click to edit slug"
+      onClick={() => setEditing(true)}
+      className={`${baseClasses} cursor-text hover:text-gray-600 transition-colors`}
     >
       /{value}
     </span>

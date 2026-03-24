@@ -40,3 +40,14 @@
     font-size: inherit;
     line-height: inherit;
 }
+
+/* Hide the "+" add block button */
+.editorjs-container .ce-toolbar__plus {
+    display: none !important;
+}
+
+/* Make slash menu / toolbox appear at block position, not anchored to "+" */
+.editorjs-container .ce-toolbox {
+    left: 0 !important;
+    right: auto !important;
+}

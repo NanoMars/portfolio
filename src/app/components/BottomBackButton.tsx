@@ -8,25 +8,20 @@ export default function BottomBackButton() {
 
   useEffect(() => {
     const checkHeight = () => {
-      // Compare total document height vs viewport height
-      if (document.body.scrollHeight > window.innerHeight) {
-        setIsLong(true);
-      } else {
-        setIsLong(false);
-      }
+      // Only show footer when content extends well beyond the viewport.
+      // Use a threshold to avoid showing it when there's just a tiny overflow
+      // from padding/editor chrome.
+      const overflow = document.body.scrollHeight - window.innerHeight;
+      setIsLong(overflow > 200);
     };
 
-    // Check initially
     checkHeight();
 
-    // Check on resize
     window.addEventListener("resize", checkHeight);
 
-    // Check if content changes (e.g., images loading)
     const observer = new MutationObserver(checkHeight);
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // Fallback delay to catch late-loading elements
     const timeout = setTimeout(checkHeight, 500);
 
     return () => {
@@ -39,16 +34,19 @@ export default function BottomBackButton() {
   if (!isLong) return null;
 
   return (
-    <div className="mt-12 flex justify-start">
-      <Link
-        href="/"
-        className="group text-black hover:text-gray-700 transition-colors duration-200 py-2 font-bold flex items-center lowercase"
-      >
-        <span className="relative">
-          back
-          <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gray-700 transition-all duration-300 group-hover:w-full"></span>
-        </span>
-      </Link>
+    <div className="mt-10">
+      <div className="border-t-2 border-black" />
+      <div className="mt-4 flex justify-start">
+        <Link
+          href="/"
+          className="group text-black hover:text-gray-700 transition-colors duration-200 py-2 font-bold flex items-center lowercase"
+        >
+          <span className="relative">
+            back
+            <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gray-700 transition-all duration-300 group-hover:w-full"></span>
+          </span>
+        </Link>
+      </div>
     </div>
   );
 }

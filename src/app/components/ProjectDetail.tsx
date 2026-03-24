@@ -31,6 +31,9 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
   const editorRef = useRef<EditorJsEditorHandle>(null);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [previewMode, setPreviewMode] = useState(false);
+
+  const effectiveAdmin = admin && !previewMode;
 
   const showSaved = () => {
     setSaveStatus("saved");
@@ -57,8 +60,10 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
 
   const handleContentSave = useCallback(
     async (data: import("@editorjs/editorjs").OutputData) => {
+      // Don't save empty content — prevents overwriting existing data
+      if (!data.blocks || data.blocks.length === 0) return;
       await saveField({
-        content: serializeContent(data),
+        editorjsContent: serializeContent(data),
         contentFormat: "editorjs",
       });
     },
@@ -80,7 +85,7 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
     }
   };
 
-  const parsed = parseContent(project.content, project.contentFormat);
+  const parsed = parseContent(project.content, project.editorjsContent);
   const editorInitialData =
     parsed.type === "editorjs" ? parsed.data : undefined;
 
@@ -106,11 +111,12 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
           </span>
         </Link>
         {admin && (
-          <InlineVisibilityBadge
-            value={project.visibility}
-            onSave={(v) => saveField({ visibility: v })}
-            admin={admin}
-          />
+          <button
+            onClick={() => setPreviewMode((p) => !p)}
+            className="text-xs font-bold px-3 py-1 border-2 border-black hover:bg-gray-100 transition-colors cursor-pointer"
+          >
+            {previewMode ? "exit preview" : "view as visitor"}
+          </button>
         )}
       </div>
 
@@ -120,7 +126,7 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
           value={project.headerImage}
           alt={project.headerImageAlt}
           onSave={(url) => saveField({ headerImage: url })}
-          admin={admin}
+          admin={effectiveAdmin}
           className="mb-8"
         />
 
@@ -128,32 +134,41 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
         <InlineTextField
           value={project.name}
           onSave={(v) => saveField({ name: v })}
-          admin={admin}
+          admin={effectiveAdmin}
           tag="h1"
           className="text-4xl font-bold mb-2"
           placeholder="Project name"
         />
 
-        {/* Slug (admin only) */}
-        <InlineSlugField
-          value={project.slug || ""}
-          onSave={(v) => {
-            const oldSlug = project.slug;
-            saveField({ slug: v }).then(() => {
-              if (v !== oldSlug) {
-                router.push(`/${v}`);
-              }
-            });
-          }}
-          admin={admin}
-        />
+        {/* Slug + Visibility Badge */}
+        <div className="flex items-center gap-3 mb-1">
+          <InlineSlugField
+            value={project.slug || ""}
+            onSave={(v) => {
+              const oldSlug = project.slug;
+              saveField({ slug: v }).then(() => {
+                if (v !== oldSlug) {
+                  router.push(`/${v}`);
+                }
+              });
+            }}
+            admin={effectiveAdmin}
+          />
+          {effectiveAdmin && (
+            <InlineVisibilityBadge
+              value={project.visibility}
+              onSave={(v) => saveField({ visibility: v })}
+              admin={effectiveAdmin}
+            />
+          )}
+        </div>
 
         {/* Description */}
         <div className="mb-8 mt-4">
           <InlineTextField
             value={project.description || ""}
             onSave={(v) => saveField({ description: v || null })}
-            admin={admin}
+            admin={effectiveAdmin}
             tag="p"
             className="text-xl text-gray-600"
             multiline
@@ -170,7 +185,7 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
                 ...(f.url !== undefined && { githubUrl: f.url }),
               })
             }
-            admin={admin}
+            admin={effectiveAdmin}
             type="github"
           />
           <InlineLinkField
@@ -184,14 +199,14 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
                 ...(f.icon !== undefined && { liveUrlIcon: f.icon }),
               })
             }
-            admin={admin}
+            admin={effectiveAdmin}
             type="live"
           />
         </div>
 
         {/* Content */}
-        <div className="prose prose-lg prose-black max-w-none border-y-2 border-black py-10">
-          {admin ? (
+        <div className="prose prose-lg prose-black max-w-none border-t-2 border-black py-10">
+          {effectiveAdmin ? (
             <EditorJsEditor
               ref={editorRef}
               initialData={editorInitialData}
@@ -200,14 +215,14 @@ export default function ProjectDetail({ project, admin }: ProjectDetailProps) {
           ) : (
             <ProjectContent
               content={project.content}
-              contentFormat={project.contentFormat}
+              editorjsContent={project.editorjsContent}
             />
           )}
         </div>
       </article>
 
       {/* Admin: Delete */}
-      {admin && (
+      {effectiveAdmin && (
         <div className="mt-8 flex justify-end">
           <button
             onClick={handleDelete}

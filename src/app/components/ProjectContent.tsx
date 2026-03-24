@@ -7,14 +7,14 @@ import { parseContent } from "@/lib/editorjs/utils";
 
 interface ProjectContentProps {
   content: string | null;
-  contentFormat: string | null;
+  editorjsContent: string | null;
 }
 
 export default function ProjectContent({
   content,
-  contentFormat,
+  editorjsContent,
 }: ProjectContentProps) {
-  const parsed = parseContent(content, contentFormat);
+  const parsed = parseContent(content, editorjsContent);
 
   if (parsed.type === "empty") {
     return (

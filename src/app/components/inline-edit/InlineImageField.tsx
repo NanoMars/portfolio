@@ -62,9 +62,9 @@ export default function InlineImageField({
 
   return (
     <div
-      className={`relative w-full h-64 md:h-96 bg-cover bg-center group ${className}`}
+      className={`relative w-full h-64 md:h-96 bg-cover bg-center cursor-pointer group ${className}`}
       style={value ? { backgroundImage: `url(${value})` } : undefined}
-      onDoubleClick={() => fileRef.current?.click()}
+      onClick={() => fileRef.current?.click()}
       onDragOver={(e) => {
         e.preventDefault();
         setIsDragging(true);
@@ -80,20 +80,28 @@ export default function InlineImageField({
         className="hidden"
       />
       <div
-        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 ${
+        className={`absolute inset-0 flex items-center justify-center cursor-pointer ${
           isDragging
-            ? "bg-black/30 opacity-100"
+            ? "bg-black/30"
             : value
-              ? "bg-black/0 opacity-0 group-hover:bg-black/20 group-hover:opacity-100"
-              : "bg-gray-100 opacity-100 border-2 border-dashed border-gray-300"
+              ? "bg-black/0 group-hover:bg-black/20"
+              : "bg-gray-100 border-2 border-dashed border-gray-300 group-hover:bg-gray-200"
         }`}
       >
-        <span className="text-sm font-bold px-3 py-1 bg-white/90 border-2 border-black">
+        <span
+          className={`text-sm font-bold px-3 py-1 bg-white/90 border-2 border-black cursor-pointer ${
+            value && !isDragging
+              ? "opacity-0 group-hover:opacity-100"
+              : "opacity-100"
+          }`}
+        >
           {uploading
             ? "uploading..."
-            : value
-              ? "double-click to change image"
-              : "double-click to add header image"}
+            : isDragging
+              ? "drop image here"
+              : value
+                ? "click or drag to change"
+                : "click or drag to add header image"}
         </span>
       </div>
     </div>

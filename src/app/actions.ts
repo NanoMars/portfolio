@@ -101,8 +101,9 @@ export async function createNewProjectAction(payload: any) {
     liveUrlText: payload.liveUrlText || null,
     liveUrlIcon: payload.liveUrlIcon || null,
     content: payload.content || null,
+    editorjsContent: payload.editorjsContent || null,
     contentFormat: payload.contentFormat || "markdown",
-    visibility: payload.visibility || "public",
+    visibility: payload.visibility || "private",
     priority,
   });
 
